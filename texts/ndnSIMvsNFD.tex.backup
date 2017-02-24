@@ -28,6 +28,6 @@ ndnSIM and NFD are so far the most relevant and used tools in the research and d
 \section{Main Conceipts}
 \label{S:2}
 \subsection{ndnSIM}
-ndnSIM is a network simulator based on the NS-3 simulator, one of the most porwerful tools in simulating networks. ndnSIM can be described as a framework built over NS-3 to simulate NDN network, ndnSIM have its applications written in c++ and even though its a application built to simulate NDN networks it uses NFD as its core to implement NDN functions such as PIT's, FIB's and Content Store functions. \par
+ndnSIM is a network simulator based on the ns-3 simulator, one of the most porwerful tools in simulating networks. ndnSIM can be described as a framework built over ns-3 to simulate NDN network, ndnSIM have its applications written in c++ and even though its a application built to simulate NDN networks it uses NFD as its core to implement NDN functions such as PIT's, FIB's and Content Store functions. \par
 
 \end{document}
