@@ -1,0 +1,354 @@
+
+
+
+
+\documentclass[11pt,conference]{./IEEEtran}
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[journal,comsoc]{../sty/IEEEtran}
+
+\input{./usepackages}
+\input{./definitions}
+
+%\input{leonardo_usepackages_for_ieee} %AK: avoid using it
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+%\newcommand{\mytitle}{Impact of Multipath in Mobile Backhaul Savings for ICN Architectures: An Evaluation Using ndnSIM}
+
+\newcommand{\mytitle}{Tools for NDN architectures: ndnSIM vs. NFD}
+
+
+%\newcommand{\mytitle}{NDN Routing and Forwarding Evaluation under Congestion in Push-Based Application Scenarios}
+
+%\IEEEoverridecommandlockouts
+
+\begin{document} 
+
+\title{\mytitle}
+
+%\author{Michael~Shell,~\IEEEmembership{Member,~IEEE,}
+        %John~Doe,~\IEEEmembership{Fellow,~OSA,}
+        %and~Jane~Doe,~\IEEEmembership{Life~Fellow,~IEEE}% <-this % stops a space
+%\author{Leonardo Ramalho,
+                                %Maria Nilma Fonseca,
+                                %Aldebaro Klautau,
+                               
+                                %Chenguang Lu, 
+                                %Elmar Trojer,
+                                %Miguel Berg,
+                                %and Stefan H\"{o}st
+\author{
+% Author and thnaks should be removed in submisson, but ok for final version
+% as shown in http://www.comsoc.org/cl/author-guidelines
+%\thanks{Manuscript received April 19, 2005; revised August 26, 2015.}
+%\thanks{This work was supported in part by CNPq and the Capes Foundation, Ministry of
+%Education of Brazil.
+%and by the European Union through the 5G-Crosshaul project (H2020-ICT-2014/671598).}
+%}
+%\thanks{L. Ramalho, M. N. Fonseca and A. Klautau are with Federal University of Para , Belem, Brazil (e-mail: \{leonardolr, nilmafonseca,aldebaro\}@ufpa.br).}% <-this % stops a space
+%\thanks{C. Lu, E. Trojer and M. Berg are with Ericsson Research, Kista, Sweden (e-mail: \{chenguang.lu, elmar.trojer, miguel.berg\}@ericsson.com)}
+%\thanks{S. H\"{o}st is with Department of Electrical and Information Technology, Lund University, Sweden (e-mail: stefan.host@eit.lth.se)}
+% \IEEEauthorblockN{Silvia~Lins\IEEEauthorrefmark{1}} \\
+% \IEEEauthorrefmark{1} Signal Processing Laboratory, Federal University of Par\'{a}, Brazil\\
+% Email: silvialins@ufpa.br
+% }
+\IEEEauthorblockN{João Igor Pereira\IEEEauthorrefmark{1}} \\
+\IEEEauthorrefmark{1} Signal Processing Laboratory, Federal University of Par\'{a}, Brazil\\
+Email: joao.pereira@itec.ufpa.br
+}
+
+
+\maketitle
+
+\begin{abstract}
+
+% Current video streaming demands are motivating research on cost-efficient solutions for distributing such large traffic amount. Information-Centric Networking (ICN) is a relevant new paradigm that can inherently benefit from multipath transport. This work contributes specifically evaluating the impact of multipath transport in ICN deployments with and without cache, assessing its capacity to alleviate bottlenecks in the radio access network backhaul links. Previous related work has evaluated cache and multipath techniques jointly used, but in this work new insights are provided regarding how multipath functionality alone already impacts in a positive way ICN deployments. Another contribution of this work is evaluate cache deployment in various aggregation nodes in realistic mobile operator inspired scenario, showing how its location influences in end-to-end delay reduction. Evaluation is performed using the open source ndnSIM simulator and, e. g. , indicates that backhaul savings originated by multipath deployment are relevant even without cache, and also assesses cache deployment in intermediate aggregation nodes.
+With the huge increase of data traffic in the nowadays network, the need in the research and development for protocols that suits better this huge traffic is rising and some of the most promising researchs are in ICN(Information-Centric Netwoks) areas such as NDN(Named Data Network), since the main proposal of these protocols is placing the data as the center of the network not the end nodes connection anymore, this way releaving the actual weight that the servers/end-nodes in the IP architecture have to carry to supply the demand of a huge number of access. Knowing that the NDN network still have some lacks and issues not solved (such as setting the most feasible implementation of IOT network and ensuring quality of service in video streamings) due its state of development, the research need more produtivity to be in implmentable state for be a feasible 5g solution. In order to help the research and development of these protocols, tools for the researchers are need, tools for simulation and emulation that help programmer to develop the algortithms.
+
+
+
+
+\end{abstract}
+
+
+\renewcommand\IEEEkeywordsname{Keywords}
+\begin{IEEEkeywords}
+ICN, NFD, ndnSIM, NDN.
+\end{IEEEkeywords}      
+
+	\section{Introduction}
+
+	NDN is a very promissing architecture that is being developed in the last few years, it aspires to be the sucessor of the actual most used architecture, the IP architecture, despites being a good solution for many problems that the IP architecture has facing, NDN is still being developed, for that, the academia and the developers need tools to test, study and improve the NDN algorithms, tools preferably, powerful, opensource and less complex as possible for the users so the tools can be common, get the wide research commumity using it and helps the community to develop faster the ideals algorithms for this new architecture \par
+	ndnSIM and NFD are so far the most relevant and used tools in the research and development of NDN networks, each one have its own applications, even usually used together for a realystic simulations, they are in fact separate things, having each one a different function.
+
+
+
+	\section{Named Data Networking}  \label{sec:ndn}
+
+	IP currently is widely deployed as the protocol layer for global connectivity, but besides allowing modifications in upper and lower layers for various application deployments, it does not favor tasks that concern content distribution. NDN was a branch made in 2013 from CCN~\cite{ccn} architecture, which was first proposed by Van Jacobson~\cite{Jacobson09} in 2009. NDN proposes a change in the thin waist of the IP hourglass scheme, putting content chunks instead of IP address field in the center of the protocol stack. This way, data can be identified by its name rather than its location, which provides better support for distribution networks. 
+
+	Information exchange in NDN architecture comprises two main structures: data packets and interest packets. Data and interest packets have a one-to-one mapping to maintain flow balance. Both packet structures carry a name that identifies the content, and the communication is mainly operated by the receiver node, or ``consumer". Consumer sends interest packets identifying a certain content and waits for a response from the network. It does not know specifically where the content is placed and how long it will take to arrive, but routers use this name to forward the interest packet until a node that has the corresponding content. The process happens as follows:
+
+	\begin{itemize}
+
+		\item Consumer sends an interest packet to the very first node responsible to interconnect him with the rest of the network, and defines a timer to wait for a response. If nothing is received, it resends the interest and resets the timer.
+		
+		\item The network node searchs the content in its local cache, named ``content store" (CS): if the content is found, it is directly sent back to the node that requested it. 
+		
+		\item If nothing is found, the node checks the ``Pending Interest Table" (PIT), responsible to record the interfaces from which interest requests were received. If an existing entry is found for the same content, it just adds this new interface under the same request. 
+		
+		\item If no entry is found in the PIT, the node records this request in the PIT and forwards this interest to the next node based on ``Forwarding Information base" (FIB) structure and on its adaptive forwarding strategy. This process is repeated until a node with the requested content is found.
+
+		\item Once the content is found, it is sent back through the same path used to forward the corresponding interest, until it reaches the consumer (or the consumers) that requested the content. 
+
+	\end{itemize}
+
+
+	\section{Push-based Applications in ICN}  \label{sec:pushbased}
+
+
+	In this section, a few push-based application proposals will be described in a more detailed way. It is important to stress that this paper focuses on the coexistence issues of push-based applications in the presence of ``regular'' ICN applications, so despite detailing some implementation options, push-based applications are modeled here in a more generic way. This general modeling follows the main idea of the concepts found in the literature, that are described in the sequel.  
+
+	To authorize data being sent through the network without being requested, ICN Strategy Layer needs to incorporate functions for different transport and forwarding services. 
+
+	\subsection{IoT via NDN: The Support of Push Traffic}
+
+	In~\cite{Amadeo14a}, three schemes are discussed to address push-based applications in content centric networks:
+
+	\begin{itemize}
+
+			\item Interest Notification: in this scheme, tiny contents are embedded in interest structures which may accelerate content delivery. To guarantee reliable delivery, dummy data packets are sent back from the end host as ``ACK'' notifications for interest reception. 
+
+			\item Unsolicited Data: Different from regular NDN operation, unsolicited data packets sent by hosts without an interest requesting it are not immediately discarded. First, its signature is validated and the node receiving the data keeps it in its Content Store, but is not able to forward it to other nodes while there are no requests arriving for this packet in node's FIB. So this application is better suited for one-hop scenarios. 
+
+			\item Virtual Interest Polling: VIP proposes ``long-lived Interests'' and was first designed in~\cite{Zhu11}. Long-lived Interests have an extended lifetime and specially in scenarios with several devices, provide overhead and network load reduction.
+
+	\end{itemize}
+
+
+	\subsection{A Push-Enabling Scheme for Live Streaming System in Content-Centric Networking}
+
+	A concept for signalling push-based applications was proposed in~\cite{Kwangsoo13}, by adding different message types in the protocol through reserved keywords. For example, "PushReq" is sent together with the user ID to a server, which may send back Push Confirm o allow the user to send data to the network. Once this path is enabled, no further push requests are needed and the node interested in sending the data can do it directly. Further details regarding protocol specifications about how messages are exchanged can be consulted in~\cite{Kwangsoo13}.
+
+
+	\subsection{VoCCN: Voice over Content Centric Networks}
+
+	VoCCN is a push-based application for voice calls developed by~\cite{Jacobson09} that achieves similar call quality when compared to VoIP, and is also capable of interoperate with VoIP applications. It also provides better security by digitally signing all data and signalling packets. To increase user quality of service, VoCCN models a push-based application by consecutively sending several interests, so users are able to ``pipeline'' it, without waiting for receiving a content to retrieve the next one.
+
+
+	\subsection{Supporting Diverse Traffic Types in Information Centric Networks}
+
+	In~\cite{Tsilopoulos11} two main application types are proposed to handle traffic dissemination in push-based traffic:
+
+		\begin{itemize}
+			\item Channels: This application type requires the same routing and forwarding schemes, and could be a streaming application or transmission of a single file for example. Channel implements ``Persistent Interests'' structure which signals that several data packets in a row should be requested, changing the one-interest-one-data scheme and reducing overhead. 
+
+			\item Real-time Documents: Real-time applications for notification purposes (alarms, sensors, etc) make use of ``Reliable Notifications'' structure. A special data packet is sent and waits for acknowledgement from the next hop, and is retransmitted if a timeout occurs. 
+		\end{itemize}
+
+
+	\section{Issues in Diverse Applications Coexistence}  \label{sec:coexistence}
+
+	In this section, the main impairments expected when diverse applications coexist in congested scenarios are discussed, and such problems are revealed through simulation results in Section~\ref{sec:results}.
+
+	Even for network scenarios comprising only IP-based traffic, issues are identified when e.g. TCP traffic needs to compete for resources with UDP traffic. Promising congestion control algorithms were developed in the last decades and were not widely adopted mainly due to fairness issues with legacy tcp-based traffic: since TCP represented a considerable portion of Internet traffic, a rate-based congestion control algorithm for example could not be directly deployed without negatively affecting TCP users throughput. Because of this, video streaming applications from big content providers massively adopted TCP-based streaming algorithms for video transmission mainly due to compatibility and fairness issues with legacy protocols.
+
+	Such behavior may occur when push-based applications coexist with TCP/IP traffic, or when regular NDN applications are using TCP as its transport protocol, i.e. TCP as an underlay of NDN. This behavior is modeled in the next section with a scenario deployed in NFD tool, and its results are assessed in Section~\ref{sec:results}.
+
+	\subsection{TCP-Friendliness Issues}
+
+	The TCP protocol implementation considered by this study is CUBIC TCP~\cite{cubictcp}, the default TCP implementation for the linux kernel present in the containers used in this work. CUBIC TCP includes 
+	modifications in the original TCP strategy for window increase that benefits its performance by making it react faster to changes in link bandwidth.  
+
+	Focusing on bandwidth utilization improvements, protocols should avoid reducing window size below available end-to-end capacity~\cite{Kliazovich08} and should encourage more aggressive window increases, so buffer bottleneck could be fulfilled faster but preventing overflow. Since original TCP implementation lacks efficiency in high-speed networks, CUBIC TCP modified the strategy for window increase. Before, it was assumed that in order to be TCP-friendly, in small-RTT networks, CUBIC TCP and other TCP implementations should mimic original TCP’s behavior since it behaves well in these cases~\cite{Floyd03}. They should only increase its bandwidth utilization (in comparison with legacy TCP flows) in scenarios where TCP is not capable of fully utilize the available bandwidth (i.e. high RTT scenarios). But despite providing great TCP friendliness under low RTT conditions, simulations showed that it would not scale to higher RTT scenarios~\cite{cubictcp}, increasingly stealing legacy TCP flow bandwidth in links above 10~Mbps. 
+
+	These results reveal a trade-off between TCP-friendliness and scalability for regular TCP/IP deployments, and from the above it can be observed that various TCP implementations already face fairness issues among themselves. When mixed to UDP/NDN traffic, those problems get even worse as it will be showed in Section~\ref{sec:results}.
+
+
+	\section{Scenario Deployment in NFD}  \label{sec:scenario}
+
+	The coexistence scenario (depicted in Figure~\ref{fig:scenario_coexist}) containing various NDN applications was deployed using NFD~\cite{nfd}, NDN Traffic Generator~\cite{ndntg} and Docker platform~\cite{docker}. Docker was the platform chosen for implementing containers, which are used to achieve independent and stable environments, where NFD and user applications could be safely set up. Each network node is deployed in a different container, and a network is created to interconnect them, as shown in Figure~\ref{fig:scenario_coexist}. Application's data only interfere with each other when traversing the shared network link as depicted in Figure~\ref{fig:scenario_coexist}.
+
+		\begin{figure}[ht]
+			\centering
+			\includegraphics[height=3.5in, width=3.5in]{./Figures/scenario_coexist}
+			\caption{Scenario comprising regular and modified (push-based) NDN applications, implemented using NFD and Docker platform.}
+			\label{fig:scenario_coexist}
+		\end{figure} 
+
+		\begin{figure}[ht]
+			\centering
+			\includegraphics[height=3.2in, width=3.5in]{./Figures/dockers}
+			\caption{Containers being set up for network emulation using Docker platform.}
+			\label{fig:docker}
+		\end{figure} 
+
+	Four consumers (C1, C2, C3 and C4), three producers (P1, P2 and P3) and two routers (R1 and R2) were implemented in NFD, each one in one container representing a different application. By using NFD, it is possible to configure NDN applications to run over TCP or UDP protocols. The first user, C1, runs a regular NDN application over TCP, while  C2 user runs a regular NDN application over UDP. 
+
+	The C3 application was implemented to represent a push-based NDN application for sensors, inspired in~\cite{Tsilopoulos11}. Its interests are sent more frequently and have shorter timeout values. C4 application was implemented to represent a live streaming application which makes use of long-term interests~\cite{Yao12}: the user send interests that have higher timeout values, and in these applications the server do not need to wait for an interest being issued to send a content. All network nodes are depicted Figure~\ref{fig:scenario_coexist}, where each user represents a different application. C1 regular NDN application over TCP represents a content retrieval from an e-mail server running over TCP, while C2 represents a NDN video streaming application running over UDP. Similarly, C3 can figure as a consumer that displays alerts sent by remote sensors, while C4 can perform as a live streaming application that retrieve several contents using only one interest, avoiding excessive network overhead. 
+
+	C1 and C2 users retrieve packets from server P1. User C3 is located close to the servers to represent a central monitoring unit for alerts sent by remote sensors, which in turn are represented by P2. User C4 represents a live streaming application which requests packets from server P3. 
+
+	To assess coexistence issues among these applications, two different scenarios were used: 
+
+	\begin{itemize}
+		\item Not congested scenario: Applications demand less bandwidth than what is available in computer`s network interface, and consequently do not face congestion.
+		
+		\item Congested scenario: Applications start sending interest in a rate 10x faster than in the previous setup, and network resources are not sufficient anymore for all data packets to arrive at its consumers in reasonable time. 
+
+	\end{itemize}
+
+	In the following section, the results of both simulated scenarios are discussed along the expected behavior from each application.
+
+	\section{Results}  \label{sec:results}
+
+	First scenario reveals that if the network is not facing congestion, users may share its resources fairly, independently from which transport protocol runs under NDN. The proposed topology does not contain more than three or four hops, and in NFD there was not modeled extra delay processing time per node so it would not confuse results analysis with delay added by congestion. Considering these facts, the results regarding end-to-end delay were close to 5ms for all applications, as depicted in Figure~\ref{fig:not_congested_results1}.
+
+		\begin{figure}[ht]
+			\centering
+			\includegraphics[height=3in, width=3.2in]{./Figures/not_congested_results1}
+			\caption{Scenario comprising regular and modified (push-based) NDN applications, implemented using NFD and Docker platform.}
+			\label{fig:not_congested_results1}
+		\end{figure} 
+
+
+	For the second simulated scenario, i.e. congested scenario, the bottleneck between R1 and R2 routers lead to a reduction in the TCP-based application sending rate, while UDP-based applications did not cooperate with congestion occurence and tried to maintain its interest sending rate. This led to an average end-to-end delay of almost 87 seconds for the TCP-based application (C1), while C2 (default NDN - UDP application) even requesting content from the same server (P1) and traversing the same links, obtained only 1.05 seconds of average end-to-end delay, as depicted in Figure~\ref{fig:congested_results1}. 
+
+		\begin{figure}[ht]
+			\centering
+			\includegraphics[height=3in, width=3.2in]{./Figures/congested_results1}
+			\caption{Scenario comprising regular and modified (push-based) NDN applications, implemented using NFD and Docker platform.}
+			\label{fig:congested_results1}
+		\end{figure} 
+
+	The modified (push-based) NDN applications running over UDP provided different end-to-end delay results: For the long-term interest application implemented for the C4 user, an average of 18.8 seconds of RTT was obtained, which would be unacceptable for a live streaming application. For the C3/P2 application (sensor), 5 milisseconds of average end-to-end delay was obtained, showing that even between NDN applications running over UDP protocol there are fairness issues that need to be addressed. As already discussed, several push-based application algorithms and solutions are already available in the literature, but so far results show that is necessary also to develop congestion control algorithms that are capable of adapting to different protocol underlays in order to achieve reasonable fairness levels among users. 
+
+	\section{Conclusions}  \label{sec:conclusions}
+
+	This study evaluated the issues related to the coexistence of push-based and regular applications in NDN architectures. It described existent options for push-based applications implementation in ICN and assessed the expected drawbacks when deploying heterogeneous scenarios. Fairness issues were detailed and used as an example of problems that were already faced by evolved TCP versions when used together with legacy ones. 
+
+	It also contributed with an emulation setup using NFD, NDN traffic modeler and Docker platform where it modeled different push-based applications running over UDP and a traditional NDN application running over TCP. The behavior of these applications when competing for resources in a congested network was evaluated, and revealed severe fairness impairments between different NDN users and its interaction with TCP and UDP transport protocols. 
+
+	It was also concluded that in scenarios without congestion those problems did not exist, with the results showing that all applications provided equal delay statistics. An adaptable and comprehensive congestion control solution for NDN architecture can figure as a solution for such heterogeneous deployments in congested scenarios, and comprises the next step of this research. 
+
+
+
+
+\begin{thebibliography}{99}
+
+\bibitem{Cisco15}
+"Cisco Visual Networking Index: Global Mobile Data Traffic Forecast
+Update, 2015–2020 White Paper", Cisco Systems, San Jose CA, 2015,
+[Online] Available: www.cisco.com/go/vni.
+
+\bibitem{Xylomenos14}
+G. Xylomenos et al., "A Survey of Information-Centric Networking
+Research," in IEEE Communications Surveys \& Tutorials, vol. 16, no. 2,
+pp. 1024-1049, Second Quarter 2014.
+
+\bibitem{Triad}
+Stanford University TRIAD project. [Online]. Available: http://www-
+dsg.stanford.edu/triad/
+
+\bibitem{Koponen2007}
+T. Koponen, M. Chawla, B. Chun, A. Ermolinskiy, K. H. Kim,
+S. Shenker, and I. Stoica, “A data-oriented (and beyond) network
+architecture,” in ACM SIGCOMM, 2007, pp. 181–192.
+
+\bibitem{Pursuit}
+PURSUIT project. [Online]. Available: http://www.fp7-
+pursuit.eu/PursuitWeb/
+
+\bibitem{Sail}
+SAIL project. [Online]. Available: http://www.sail-project.eu/
+
+\bibitem{Comet}
+COMET project. [Online]. Available: http://www.comet-project.org/
+
+\bibitem{Convergence}
+CONVERGENCE project. [Online]. Available: http://www.ict-
+convergence.eu/
+
+\bibitem{Mfirst}
+NSF Mobility First project. [Online]. Available:
+http://mobilityfirst.winlab.rutgers.edu/
+
+\bibitem{ccn}
+Content Centric Networking project.
+[Online]. Available:
+http://www.ccnx.org/
+
+\bibitem{ndn}
+NSF Named Data Networking project. [Online]. Available:
+http://www.named-data.net/
+
+\bibitem{Jacobson09}
+V. Jacobson, D. K. Smetters, J. D. Thornton, M. F. Plass, N. H. Briggs,
+and R. L. Braynard, “Networking named content,” in ACM CoNEXT,
+2009.
+
+\bibitem{Lixia14}
+Lixia Zhang, Alexander Afanasyev, Jeffrey Burke, Van Jacobson, kc
+claffy, Patrick Crowley, Christos Papadopoulos, Lan Wang, and
+Beichuan Zhang. 2014. Named data networking. SIGCOMM Comput.
+Commun. Rev. 44, 3 (July 2014), 66-73.
+
+\bibitem{Amadeo14a}
+M. Amadeo, C. Campolo and A. Molinaro, "Internet of Things via Named Data Networking: The support of push traffic," 2014 International Conference and Workshop on the Network of the Future (NOF), Paris, 2014, pp. 1-5.
+
+\bibitem{Zhu11}
+Zhu, Z., Wang, S., Yang, X., Jacobson, V., Zhang, L. (2011, August). ACT: audio conference tool over named data networking. In Proceedings of the ACM SIGCOMM workshop on Information-centric networking (pp. 68-73). ACM.
+
+\bibitem{Amadeo14b}
+Marica Amadeo, Claudia Campolo, and Antonella Molinaro. 2014. Multi-source data retrieval in IoT via named data networking. In Proceedings of the 1st ACM Conference on Information-Centric Networking (ACM-ICN '14). ACM, New York, NY, USA, 67-76. 
+
+\bibitem{ndnsim}
+Afanasyev, A., Moiseenko, I., Zhang, L. (2012). ndnSIM: NDN simulator for NS-3. University of California, Los Angeles, Tech. Rep.
+
+\bibitem{Jacobson09voccn}
+Jacobson, V., Smetters, D. K., Briggs, N. H., Plass, M. F., Stewart, P., Thornton, J. D., Braynard, R. L. (2009, December). VoCCN: voice-over content-centric networks. In Proceedings of the 2009 workshop on Re-architecting the internet (pp. 1-6). ACM.
+
+\bibitem{Kwangsoo13}
+Kim, K., Choi, S., Kim, S., Roh, B. H. (2013, December). A push-enabling scheme for live streaming system in content-centric networking. In Proceedings of the 2013 workshop on Student workhop (pp. 49-52). ACM.
+
+\bibitem{Tsilopoulos11}
+Tsilopoulos, C., Xylomenos, G. (2011, August). Supporting diverse traffic types in information centric networks. In Proceedings of the ACM SIGCOMM workshop on Information-centric networking (pp. 13-18). ACM.
+
+\bibitem{Yao12}
+Yao, C., Fan, L., Yan, Z., Xiang, Y. (2012). Long-term interest for realtime applications in the named data network. Proceedings of the AsiaFI.
+
+\bibitem{ccnx}
+Mosko, M., Solis, I., Uzun, E., Wood, C. (2015). CCNx 1.0 protocol architecture. Tech. Rep.
+
+\bibitem{nfd}
+Afanasyev, A., Shi, J., Zhang, B., Zhang, L., Moiseenko, I., Yu, Y., Fan, C. (2014). NFD developer’s guide. Technical Report NDN-0021, NDN.
+
+\bibitem{docker}
+Docker platform.
+[Online]. Available:
+https://www.docker.com/
+
+\bibitem{ndntg}
+Traffic Generator for NDN
+[Online]. Available:
+https://github.com/named-data/ndn-traffic-generator
+
+\bibitem{cubictcp}
+Sangtae Ha and Injong Rhee, CUBIC : A New TCP-Friendly High-Speed TCP Variant, ACM SIGOPS Operating Systems Review - Research and developments in the Linux kernel, vol. 42, no. 5, pp. 64–74, 2008.
+
+\bibitem{Kliazovich08}
+Dzmitry Kliazovich, Fabrizio Granelli, and Daniele Miorandi, Logarithmic window increase for tcp westwood+ for improvement in high speed, long distance networks, Computer Networks, vol. 52, no. 12, pp. 2395–2410, 2008.
+
+\bibitem{Floyd03}
+S. Floyd, HighSpeed TCP for Large Congestion Windows, RFC 3649, 2003.
+
+\end{thebibliography}
+
+
+\end{document}
