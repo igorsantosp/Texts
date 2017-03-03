@@ -58,7 +58,7 @@
 % \IEEEauthorrefmark{1} Signal Processing Laboratory, Federal University of Par\'{a}, Brazil\\
 % Email: silvialins@ufpa.br
 % }
-\IEEEauthorblockN{Joao Igor Pereira\IEEEauthorrefmark{1}} \\
+\IEEEauthorblockN{João Igor Pereira\IEEEauthorrefmark{1}} \\
 \IEEEauthorrefmark{1} Signal Processing Laboratory, Federal University of Par\'{a}, Brazil\\
 Email: joao.pereira@itec.ufpa.br
 }
@@ -69,7 +69,7 @@ Email: joao.pereira@itec.ufpa.br
 \begin{abstract}
 
 % Current video streaming demands are motivating research on cost-efficient solutions for distributing such large traffic amount. Information-Centric Networking (ICN) is a relevant new paradigm that can inherently benefit from multipath transport. This work contributes specifically evaluating the impact of multipath transport in ICN deployments with and without cache, assessing its capacity to alleviate bottlenecks in the radio access network backhaul links. Previous related work has evaluated cache and multipath techniques jointly used, but in this work new insights are provided regarding how multipath functionality alone already impacts in a positive way ICN deployments. Another contribution of this work is evaluate cache deployment in various aggregation nodes in realistic mobile operator inspired scenario, showing how its location influences in end-to-end delay reduction. Evaluation is performed using the open source ndnSIM simulator and, e. g. , indicates that backhaul savings originated by multipath deployment are relevant even without cache, and also assesses cache deployment in intermediate aggregation nodes.
-With the huge increase in data traffic in the nowadays network, the need for the research and development for protocols that suits better this huge traffic is rising and some of the most promising research are in CCN(Concent Centric Networking)~\cite{ccn} areas such as NDN(Named Data Network)~\cite{ndn} protocol, since the main proposal of these protocols is placing the data as the center of the network not the end nodes connection anymore, this way relieving the actual weight that the servers/end-nodes in the IP architecture have to carry to supply the demand of a huge number of accesses. Knowing that the NDN network still has some lacks and issues not solved (such as setting the most feasible implementation of IOT network and ensuring the quality of service in video streamings) due to its state of development, the research needs more productivity to be in an implementable state for being a feasible 5g solution. In order to help the research and development of these protocols, tools for the researchers are needed, tools for simulation and emulation that help the programmers to develop the "ideal algorithms" for these protocols.
+With the huge increase in data traffic in the nowadays network, the need for the research and development for protocols that suits better this huge traffic is rising and some of the most promising research are in ICN(Information-Centric Networks) areas such as NDN(Named Data Network) protocol, since the main proposal of these protocols is placing the data as the center of the network not the end nodes connection anymore, this way relieving the actual weight that the servers/end-nodes in the IP architecture have to carry to supply the demand of a huge number of accesses. Knowing that the NDN network still has some lacks and issues not solved (such as setting the most feasible implementation of IOT network and ensuring the quality of service in video streamings) due to its state of development, the research needs more productivity to be in an implementable state for being a feasible 5g solution. In order to help the research and development of these protocols, tools for the researchers are needed, tools for simulation and emulation that help the programmers to develop the "ideal algorithms" for these protocols.
 
 
 
@@ -84,33 +84,33 @@ ICN, NFD, ndnSIM, NDN.
 
 	\section{Introduction}
 
-   NDN is a very promising architecture that is being developed in the last few years, it aspires to be the successor of the actual most used architecture, the IP architecture, despites being a good solution for many problems that the IP architecture has facing, NDN is still being developed, for that, the academia and the developers need tools to test, study and improve the NDN algorithms, tools preferably, powerful, open source and less complex as possible for the users so the tools can be common, get the wide research community using it and helps the community to develop faster the ideals algorithms for this new architecture.\par
-    ndnSIM and NFD are so far the most relevant and used tools in the research and development of NDN networks, each one has its own applications, even usually used together for a more realistic simulation, they are in fact separate things, having each one a different function.
+	NDN is a very promissing architecture that is being developed in the last few years, it aspires to be the sucessor of the actual most used architecture, the IP architecture, despites being a good solution for many problems that the IP architecture has facing, NDN is still being developed, for that, the academia and the developers need tools to test, study and improve the NDN algorithms, tools preferably, powerful, opensource and less complex as possible for the users so the tools can be common, get the wide research commumity using it and helps the community to develop faster the ideals algorithms for this new architecture \par
+	ndnSIM and NFD are so far the most relevant and used tools in the research and development of NDN networks, each one have its own applications, even usually used together for a realystic simulations, they are in fact separate things, having each one a different function.
 
 
 
 	\section{NFD}
-NFD(NDN Forwarding Daemon)~\cite{ccn} is the NDN "official" network forwarder which implements the forwarding algorithms of this protocol and evolves together with it. It had its first release main developed by the NSF-sponsored NDN project team, but now the project already have significant contributions from the community.\par
-NFD can be seen as an official NDN library written to run Named Data Network main functions, NFD is what we can say "the program which will run in the core of the nodes".\par
+NFD(NDN Forwarding Daemon) is the NDN "official" network forwarder which implements the forwarding algorithms of this protocol and evolves together with it. It had its first release main developed by the NSF-sponsored NDN project team, but now already have a significant contributions from the community.\par
+NFD can be seen as an oficial NDN library written to run Named Data Network main functions, NFD is what we can say "the program which will run in the core of the nodes".\par
 The most significant modules that NFD implements are:
 
 	\begin{itemize}
 
+		\item The Core Module: module which implements many main services such as DNS resolver, hash computation routines, face monitoring and other services that are shared between different NFD modules
+		
+		\item The Face Module: responsible for implementing the face abstraction on lower level transport mechanisms. 
+		
+		\item The Tables: Implements the tables of NDN protocol,Pending Interest Table(PIT), Contest Store(CS), Fowardding Information Base(FIB) and some other structures that helps in the Named Data Network fowarding
+		
+		\item RIB Management: Manages the Routing Information Base(RIB), the RIB is responsible for generating a consistent fowarding table(FIB), for that is a separate module
 
-         \item The Core Module: module which implements many main services such as DNS resolver, hash computation routines, face monitoring and other services that are shared between different NFD modules
-        
-        \item The Face Module: responsible for implementing the face abstraction on lower level transport mechanisms. 
-        
-        \item The Tables: Implements the tables of NDN protocol, Pending Interest Table(PIT), Contest Store(CS), Forwarding Information Base(FIB) and some others structures that help in the Named Data Network forwarding
-        
-        \item RIB Management: Manages the Routing Information Base(RIB), the RIB is responsible for generating a consistent fowarding table(FIB), for that is a separate module
+		\item Forwarding Module: Implements basic packet processing pathways, it interacts with Faces, Tables, and Strategies.
 
-        \item Forwarding Module: Implements basic packet processing pathways, it interacts with Faces, Tables, and Strategies.
 	\end{itemize}
-For being a forwarder, not a simulator, NFD can actually be used for emulation, since it is written to run on the core of the nodes, for this reason, NFD does not need ndnSIM to run, NFD can be used separately in the computers or virtual machines in order to emulate NDN networks.\par
-This capacity of emulation is a critical point for the researchers since it allows a real implementation of the codes created and developed in simulations, it allows the user, in fact, observe your code running and the differents real nodes actually communicating with each other through the code written for NDN protocol.\par
+For being a forwarder not a simulator, NFD can actually be used for emulation, since it is written to run into the core of the nodes, for this reason NFD does not need ndnSIM to run, NFD can be used separetely in the computers or virtual machines in order to emulate NDN networks.\par
+This capacity of emulation is a critical point for the researchers since it allows a real implementation of the codes created and developed in simulations, it allows the user in fact observe your code running and the differents real nodes actually communicating with each other through the code written for NDN protocol.\par
 Pros:
-	\begin{itemize}
+\begin{itemize}
 		\item Widely developed by the community.
 		
 		\item Capable of emulation and can be used by other programs for simulation.
@@ -120,9 +120,9 @@ Pros:
 	\end{itemize}
 
 
-	\section{ndnSIM}  ndnSIM is a network simulator based on the NS-3 simulator, one of the most powerful tools in simulating networks. ndnSIM can be described as a framework built over NS-3 to simulate NDN network, ndnSIM have its applications written in c++ and even though its an application built to simulate NDN networks it uses NFD in its core to implement NDN functions such as PIT's, FIB's and Content Store functions on the nodes. \par
-To be more specific, ndnSIM is a simulator that allows a easy configuration of simulated networks through its helpers and allows also a wide range of possible networks topologies since inherits this functions from NS-3, a major tool in networks simulations, but also extends NS-3 having its own libraries to work with NDN networks and implementing NFD/ndn-cxx libraries to work on the core of the nodes making the simulation more near to the realistic results and helping the users since the NDN functions are already written in NFD/ndn-cxx libraries which are deloped by the community effort, this way the user get rid of doing the code for this basic functions.\par  
-For that ndnSIM can be described as a indispensable tool for the research of NDN protocol since through that tool it is possible to configure, simulate and track/observe/debug a Named Data Network easily using the helpers, structures inherited from the NS-3 and use a trustable forwarder built and developed also by the community(NFD).\par
+	\section{ndnSIM}  ndnSIM is a network simulator based on the NS-3 simulator, one of the most porwerful tools in simulating networks. ndnSIM can be described as a framework built over NS-3 to simulate NDN network, ndnSIM have its applications written in c++ and even though its an application built to simulate NDN networks it uses NFD in its core to implement NDN functions such as PIT's, FIB's and Content Store functions on the nodes. \par
+To be more especific, ndnSIM is a simulator that allows a easy configuration of simulated networks throught its helpers and allows also a wide range of possible networks topologies since inherits this functions from NS-3, a major tool in networks simulations, but also extends NS-3 having its own libraries to work with NDN networks and implementing NFD/ndn-cxx libraries to work on the core of the nodes making the simulation more near to the realystic results and helping the users since the NDN functions are already written in NFD/ndn-cxx libraries which is deloped by the community effort, this way the user get rid of doing the code for this basic functions.\par  
+For that ndnSIM can be described as a indispensable tool for the research of NDN protocol since through that tool it is possible to configure, simulate and trace/observe/debug a Named Data Network easily using the helpers, estrutures inherited from the NS-3 and use a trustble forwarder built and delevoped also by the commumity(NFD).\par
 Pros:
 \begin{itemize}
 		\item Built over NS-3 a tool with a large community.
@@ -135,7 +135,7 @@ Pros:
 	\end{itemize}
 
 
-	\section{Conclusions} 
+	\section{Conclusions}  \label{sec:conclusions}
 
 As seen, NFD and ndnSIM are powerful tools built to help the research in Named Data Network area, having each one its main function. While ndnSIM, is a powerful tool to simulate the structure of a wide network, with different topologies and variables in a simple way, NFD allows the nodes to work as actuals NDN nodes with codes developed partially by the community itself.\par
 \begin{figure}[ht]
@@ -144,6 +144,7 @@ As seen, NFD and ndnSIM are powerful tools built to help the research in Named D
 			\caption{pipeline illustration of both programs working together}
 			\label{fig:not_congested_results1}
 		\end{figure} 
+\end{document}
 
 
 
