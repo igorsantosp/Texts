@@ -1,0 +1,321 @@
+
+
+
+
+\documentclass[11pt,conference]{./IEEEtran}
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[journal,comsoc]{../sty/IEEEtran}
+
+\input{./usepackages}
+\input{./definitions}
+
+%\input{leonardo_usepackages_for_ieee} %AK: avoid using it
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+%\newcommand{\mytitle}{Impact of Multipath in Mobile Backhaul Savings for ICN Architectures: An Evaluation Using ndnSIM}
+
+\newcommand{\mytitle}{Beginning with NFD}
+
+
+%\newcommand{\mytitle}{NDN Routing and Forwarding Evaluation under Congestion in Push-Based Application Scenarios}
+
+%\IEEEoverridecommandlockouts
+
+\begin{document} 
+
+\title{\mytitle}
+
+%\author{Michael~Shell,~\IEEEmembership{Member,~IEEE,}
+        %John~Doe,~\IEEEmembership{Fellow,~OSA,}
+        %and~Jane~Doe,~\IEEEmembership{Life~Fellow,~IEEE}% <-this % stops a space
+%\author{Leonardo Ramalho,
+                                %Maria Nilma Fonseca,
+                                %Aldebaro Klautau,
+                               
+                                %Chenguang Lu, 
+                                %Elmar Trojer,
+                                %Miguel Berg,
+                                %and Stefan H\"{o}st
+\author{
+% Author and thnaks should be removed in submisson, but ok for final version
+% as shown in http://www.comsoc.org/cl/author-guidelines
+%\thanks{Manuscript received April 19, 2005; revised August 26, 2015.}
+%\thanks{This work was supported in part by CNPq and the Capes Foundation, Ministry of
+%Education of Brazil.
+%and by the European Union through the 5G-Crosshaul project (H2020-ICT-2014/671598).}
+%}
+%\thanks{L. Ramalho, M. N. Fonseca and A. Klautau are with Federal University of Para , Belem, Brazil (e-mail: \{leonardolr, nilmafonseca,aldebaro\}@ufpa.br).}% <-this % stops a space
+%\thanks{C. Lu, E. Trojer and M. Berg are with Ericsson Research, Kista, Sweden (e-mail: \{chenguang.lu, elmar.trojer, miguel.berg\}@ericsson.com)}
+%\thanks{S. H\"{o}st is with Department of Electrical and Information Technology, Lund University, Sweden (e-mail: stefan.host@eit.lth.se)}
+% \IEEEauthorblockN{Silvia~Lins\IEEEauthorrefmark{1}} \\
+% \IEEEauthorrefmark{1} Signal Processing Laboratory, Federal University of Par\'{a}, Brazil\\
+% Email: silvialins@ufpa.br
+% } 
+\IEEEauthorblockN{Joao Igor Pereira\IEEEauthorrefmark{1}} \\
+\IEEEauthorrefmark{1} LASSE - 5G & IoT Research Group, Federal University of Par\'{a}, Brazil\\
+Email: igorsantos95@live.com
+}
+
+
+\maketitle
+
+\begin{abstract}
+
+% Current video streaming demands are motivating research on cost-efficient solutions for distributing such large traffic amount. Information-Centric Networking (ICN) is a relevant new paradigm that can inherently benefit from multipath transport. This work contributes specifically evaluating the impact of multipath transport in ICN deployments with and without cache, assessing its capacity to alleviate bottlenecks in the radio access network backhaul links. Previous related work has evaluated cache and multipath techniques jointly used, but in this work new insights are provided regarding how multipath functionality alone already impacts in a positive way ICN deployments. Another contribution of this work is evaluate cache deployment in various aggregation nodes in realistic mobile operator inspired scenario, showing how its location influences in end-to-end delay reduction. Evaluation is performed using the open source ndnSIM simulator and, e. g. , indicates that backhaul savings originated by multipath deployment are relevant even without cache, and also assesses cache deployment in intermediate aggregation nodes.
+Despite being a very useful tool for developers and researchers in NDN~\cite{ndn} area, NFD is a not very didactic tool, we can easily find how to install, articles about how it works, about the logical part of the program, even topics about some usual problems, but it is still poor the documentation about how to in fact use the tool, basic commands and about how see a code working through it. The purpose of this document is to help NFD beginners that still doens't had the ``breakthrough'' the hard start occasionade for the lack of the docummentation about how to start using this tool, this document intends to be a practical guide for beginning to run codes in small NDN networks. 
+
+\end{abstract}
+
+
+\renewcommand\IEEEkeywordsname{Keywords}
+\begin{IEEEkeywords}
+NFD,ICN, ndnSIM, NDN, ndn-cxx.
+\end{IEEEkeywords}      
+
+	\section{Introduction}
+NFD is one of the most powerful tools for NDN researchers and developers since it can emulate the core of a NDN node, making the user able to test algorithms for all the jobs the NDN node core have to do and generate thought it more realistics results than many other tools. While NFD can emulate a more realistic NDN network than ndnSIM, for example,the amount of data about how to use it goes the opposite, while ndnSIM have a wide community with articles about how to use it, not just for being based in NS-3 a network simulator already widely used, but for this simulator itself, having even video lessons on youtube with hours about how to develop simple simulations, NFD is still corrected when searched on google.
+NFD is not a undocummented project it actually have a very well detailed guide, the NFD Developer’s Guide~\cite{devguide} which detail the program and its classes with a lot of graphs demonstrating abou how the program works besides some commands, syntax and meanings and is the appropriate document to be read if you wnat to be a NFD master. But for a beginner, read all that data can be not just tiring, but there is the risk to read all of that, understand all the logic of the program and at the end still doens't know how to do yout own simulation.  
+	
+	\section{Installation}
+You can find all the details about how to install NFD on NFD official site~\cite{NFD} but doing a synthesis, for Linux users the steps are below.
+
+	\subsection{ndn-cxx}
+	ndn-cxx~\cite{ndncxx} is a library written in C++ that implements NDN primitives and is being used in many NDN application such as NFD, so to use NFD we have to install this library first.
+	Prerequisites:
+	
+	\begin{itemize}
+		
+           \item    \texttt{python >= 2.6 }
+	   \item    \texttt{libsqlite3 }
+       	   \item    \texttt{libcrypto++ }
+	   \item    \texttt{OpenSSL >= 1.0.1 }
+           \item    \texttt{pkg-config }
+	   \item    \texttt{Boost libraries >= 1.54 }    
+	\end{itemize} 
+You can install all the Prerequisites on linux using the following command: sudo apt-get install build-essential libcrypto++-dev libsqlite3-dev libboost-all-dev libssl-dev. 
+After installing the prerequisites, you can download ndn-cxx source code from the github ndn-cxx oficial repository with this command: git clone https://github.com/named-data/ndn-cxx.
+To build the library, enter in the folder that contains the ndn-cxx source code and use this commands in this order:
+\begin{itemize}
+ \item \texttt{./waf configure} 
+ \item \texttt{./waf}
+ \item \texttt{./waf install}
+\end{itemize}
+This commands check if all the configurations and prerequisites are ok, compile the codes and install the library.
+After the Installation, still in the source code folder, if you are a linux user, type the comand 
+\begin{itemize}
+ \item sudo ldconfig 
+\end{itemize}
+Now your ndn-cxx library should be installed and prepared to run.
+	\subsection{NFD}  After installing the ndn-cxx library we can move forward starting the installation of NFD itself
+	\subsubsection{Prerequisites}
+	\begin{itemize}
+		\item \texttt{ndn-cxx}
+		
+		\item \texttt{pkconfig}
+		
+		\item \texttt{libpcap}
+		
+	\end{itemize}
+
+	Commands to install these prerequisites:
+	\begin{itemize}
+		\item ndn-cxx installation is explained in the subsection above.
+		
+		\item \texttt{sudo apt-get install pkg-config}
+		
+		\item \texttt{sudo apt-get install libpcap-dev}
+	\end{itemize}
+After installing the prerequisites, NFD source code can be downloaded from the NFD official repository with the command : git clone --recursive https://github.com/named-data/NFD (the --recursive attribute in the command is very important, don't forget to type it or you will have problem with the websocket folder).
+Having the prerequisites installed and the source code downloaded, to install NFD, use the same commands you used on the installation of ndn-cxx, but now on NFD source code folder
+\begin{itemize}
+ \item \texttt{./waf configure} 
+ \item \texttt{./waf}
+ \item \texttt{./waf install}
+\end{itemize}
+Now your NFD should be up to run. Run the NFD with the command: nfd-start
+If it shows any fatal errors, check if all the steps were excuted right or check the NFD official site~\cite{NFD} for more information. 
+
+\section{Starting to Use}
+This section will demonstrate how to start using NFD, but first lets remember that NFD is not a simulator, it is a forwarder, a program that emulate a NDN node, so to actually emulate a NDN network, we will need more than one NFD(emulate node) running, which means that we have to install it in at least two different computers or if you have just one computer available and to make the process easier, virtual machines.
+Normal virtual machines use too much hardware resources to be a suitable way to emulate a more wide network, in that case, the best tool to have some virtual machines running NFD without making them competing for all your hardware resources is docker~\cite{docker}. 
+
+\subsection{Docker}
+Docker~\cite{docker} is a software container platform, its containers are able to run softwares without needing to emulate the whole operational system, permiting to emulate machines without needing too much resources, thats why docker is a suitable solution to emulate networks with NFD in the case you have just one computer available.
+All the instructions about how to install and use docker are on Docker official website. (https://www.docker.com).
+All the commands below should be used with "sudo" since Docker needs root privileges. There are ways do give docker root privileges, but thats not the focus here.
+\subsubsection{Containers and Images}
+To use docker is important to know the difference between image and cointainer since these are the main work objects of this tool.
+\begin{itemize}
+ \item Image: Image is the "static" data of the machine, the saved part of a container that were running and can be run as container with the run command
+ \item Container: Container is the emulate machine itself, it is build from a image and works like a normal machine.
+\end{itemize}
+
+After installing docker and getting a image,to run that image in a cointainer use: \texttt{docker run --rm --name <containerName> -it <imageName>:<version>}. The attribute --rm is optional, it makes the container stop running in the background when you exit it, if you don't want to kill the cointer after exit it, don't use the --rm attribute.
+Into the terminal of at least one container, you have to do all the steps in the installation section, after that use:  \texttt{docker commit <cointainerID>  <imageName>:<version>}  to save the actual cointainer as a image. 
+To see the cointainer ID use in a terminal outside a container the command: \texttt{docker ps} to see the cointainers that are running and its codes.
+Now you should have a docker image saved with NFD installed and you can use it to create as many containers you need or can to simulate your NDN network.
+To create a docker network use \texttt{docker creat network <networkName>}, since you create a docker network once, you don't need to create again, like images the the networks structures are saved and can be used at anytime after the creation, but the containers connected to it, if killed, do not remain there.
+To connect a container to a created network the command \texttt{docker network connect <networkName> <containerName>}, to simulate a NDN network you should probably run and connect more than one container to the same network.
+\subsubsection{Main Docker Commands}
+\begin{itemize}
+ \item \texttt{docker run --name <containerName> -it <imageName>:<version>}
+ Run a saved image as a container
+ \item \texttt{docker ps}
+ Shows the cointainers which are running
+ \item \texttt{docker images}
+ Shows the saved images
+ \item \texttt{docker commit <cointainerID>  <imageName>:<version>}
+ Commit the changes in the container as a image
+ \item \texttt{docker network create <networkName>}
+ Create a docker network
+ \item \texttt{docker network connect <networkName> <containerName>}
+ Connect a container to a existent docker network
+ \item \texttt{docker rm <containerName>}
+ Remove/kill a container running
+ \item \texttt{docker rmi <imageName>}
+ Delete a saved/commited image
+ \item \texttt{exit} 
+ Exit the terminal or the current container
+\end{itemize}
+
+
+\subsection{NFD}
+NFD have a bunch of useful commands, but having all the steps above done, the main command you will have to use is \verb|nfd-start| to get NFD running and \verb|nfdc register udp4://<containerIP>| to connect the current container or machine to the container or machine with the given IP, it is important to make sure that the machines or cointainers binded with this commands are in the same network.
+To check the IṔ of the docker containers you can use inside the container the same commands that are used in normal terminals, such as \verb|ifconfig|.
+
+%\section{Conclusions} 
+%As seen, NFD and ndnSIM are powerful tools built to help the research in Named Data Network area, having each one its main function. While ndnSIM, is a powerful tool to simulate the structure of a wide network, with different topologies and variables in a simple way, NFD allows the nodes to work as actuals NDN nodes with codes developed partially by the community itself.\par
+%\begin{figure}[ht]
+%			\centering
+%			\includegraphics[height=3in, width=3.2in]{./Figures/Pipeline}
+%			\caption{pipeline illustration of both programs working together}
+%			\label{fig:not_congested_results1}
+%		\end{figure} 
+
+
+
+\begin{thebibliography}{99}
+
+%\bibitem{Cisco15}
+%"Cisco Visual Networking Index: Global Mobile Data Traffic Forecast
+%Update, 2015–2020 White Paper", Cisco Systems, San Jose CA, 2015,
+%[Online] Available: www.cisco.com/go/vni.
+
+%\bibitem{Xylomenos14}
+%G. Xylomenos et al., "A Survey of Information-Centric Networking
+%Research," in IEEE Communications Surveys \& Tutorials, vol. 16, no. 2,
+%pp. 1024-1049, Second Quarter 2014.
+
+%\bibitem{Triad}
+%Stanford University TRIAD project. [Online]. Available: http://www-
+%dsg.stanford.edu/triad/
+
+%\bibitem{Koponen2007}
+%T. Koponen, M. Chawla, B. Chun, A. Ermolinskiy, K. H. Kim,
+%S. Shenker, and I. Stoica, “A data-oriented (and beyond) network
+%architecture,” in ACM SIGCOMM, 2007, pp. 181–192.
+
+%\bibitem{Pursuit}
+%PURSUIT project. [Online]. Available: http://www.fp7-
+%pursuit.eu/PursuitWeb/
+
+%\bibitem{Sail}
+%SAIL project. [Online]. Available: http://www.sail-project.eu/
+
+%\bibitem{Comet}
+%COMET project. [Online]. Available: http://www.comet-project.org/
+
+%\bibitem{Convergence}
+%CONVERGENCE project. [Online]. Available: http://www.ict-
+%convergence.eu/
+
+%\bibitem{Mfirst}
+%NSF Mobility First project. [Online]. Available:
+%http://mobilityfirst.winlab.rutgers.edu/
+
+\bibitem{ndncxx}
+ndn-cxx: NDN C++ library with eXperimental eXtensions [Online]. Available:
+https://named-data.net/doc/ndn-cxx/current/
+
+\bibitem{NFD}
+Named Data Networking Forwarding Daemon. [Online]. Available:
+http://named-data.net/doc/NFD/current/
+
+\bibitem{ndn}
+NDN Named Data Networking project. [Online]. Available:
+http://www.named-data.net/
+
+%\bibitem{Jacobson09}
+%V. Jacobson, D. K. Smetters, J. D. Thornton, M. F. Plass, N. H. Briggs,
+%and R. L. Braynard, “Networking named content,” in ACM CoNEXT,
+%2009.
+
+%\bibitem{Lixia14}
+%Lixia Zhang, Alexander Afanasyev, Jeffrey Burke, Van Jacobson, kc
+%claffy, Patrick Crowley, Christos Papadopoulos, Lan Wang, and
+%Beichuan Zhang. 2014. Named data networking. SIGCOMM Comput.
+%Commun. Rev. 44, 3 (July 2014), 66-73.
+
+%\bibitem{Amadeo14a}
+%M. Amadeo, C. Campolo and A. Molinaro, "Internet of Things via Named Data Networking: The support of push traffic," 2014 International Conference and Workshop on the Network of the Future (NOF), Paris, 2014, pp. 1-5.
+
+%\bibitem{Zhu11}
+%Zhu, Z., Wang, S., Yang, X., Jacobson, V., Zhang, L. (2011, August). ACT: audio conference tool over named data networking. In Proceedings of the ACM SIGCOMM workshop on Information-centric networking (pp. 68-73). ACM.
+
+%\bibitem{Amadeo14b}
+%Marica Amadeo, Claudia Campolo, and Antonella Molinaro. 2014. Multi-source data retrieval in IoT via named data networking. In Proceedings of the 1st ACM Conference on Information-Centric Networking (ACM-ICN '14). ACM, New York, NY, USA, 67-76. 
+
+\bibitem{ndnsim}
+NS-3 based Named Data Networking (NDN) simulator 
+[Online]. Available:
+http://ndnsim.net/
+
+
+%\bibitem{Jacobson09voccn}
+%Jacobson, V., Smetters, D. K., Briggs, N. H., Plass, M. F., Stewart, P., Thornton, J. D., Braynard, R. L. (2009, December). VoCCN: voice-over content-centric networks. In Proceedings of the 2009 workshop on Re-architecting the internet (pp. 1-6). ACM.
+
+%\bibitem{Kwangsoo13}
+%Kim, K., Choi, S., Kim, S., Roh, B. H. (2013, December). A push-enabling scheme for live streaming system in content-centric networking. In Proceedings of the 2013 workshop on Student workhop (pp. 49-52). ACM.
+
+%\bibitem{Tsilopoulos11}
+%Tsilopoulos, C., Xylomenos, G. (2011, August). Supporting diverse traffic types in information centric networks. In Proceedings of the ACM SIGCOMM workshop on Information-centric networking (pp. 13-18). ACM.
+
+%\bibitem{Yao12}
+%Yao, C., Fan, L., Yan, Z., Xiang, Y. (2012). Long-term interest for realtime applications in the named data network. Proceedings of the AsiaFI.
+
+%\bibitem{ccnx}
+%Mosko, M., Solis, I., Uzun, E., Wood, C. (2015). CCNx 1.0 protocol architecture. Tech. Rep.
+
+\bibitem{devguide}
+Afanasyev, A., Shi, J., Zhang, B., Zhang, L., Moiseenko, I., Yu, Y., Fan, C. (2014). NFD developer’s guide. Technical Report NDN-0021, NDN.
+
+\bibitem{docker}
+Docker platform.
+[Online]. Available:
+https://www.docker.com/
+
+%\bibitem{ndntg}
+%Traffic Generator for NDN
+%[Online]. Available:
+%https://github.com/named-data/ndn-traffic-generator
+
+%\bibitem{cubictcp}
+%Sangtae Ha and Injong Rhee, CUBIC : A New TCP-Friendly High-Speed TCP Variant, ACM SIGOPS Operating Systems Review - Research and developments in the Linux kernel, vol. 42, no. 5, pp. 64–74, 2008.
+
+%\bibitem{Kliazovich08}
+%Dzmitry Kliazovich, Fabrizio Granelli, and Daniele Miorandi, Logarithmic window increase for tcp westwood+ for improvement in high speed, long distance networks, Computer Networks, vol. 52, no. 12, pp. 2395–2410, 2008.
+
+%\bibitem{Floyd03}
+%S. Floyd, HighSpeed TCP for Large Congestion Windows, RFC 3649, 2003.
+
+\end{thebibliography}
+  
+
+\end{document}
