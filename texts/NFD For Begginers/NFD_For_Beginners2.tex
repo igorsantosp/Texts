@@ -1,15 +1,28 @@
+\documentclass[10pt,letterpaper,extrafontsizes]{memoir}
+\listfiles
+\usepackage{comment}
 
 
+% For (non-printing) notes  \PWnote{date}{text}
+\newcommand{\PWnote}[2]{} 
+\PWnote{2009/04/29}{Added fonttable to the used packages}
+\PWnote{2009/08/19}{Made Part I a separate doc (memdesign.tex).}
+
+% same
+\newcommand{\LMnote}[2]{} 
 
 
-\documentclass[11pt,conference]{./IEEEtran}
-%
-% If IEEEtran.cls has not been installed into the LaTeX system files,
-% manually specify the path to it like:
-% \documentclass[journal,comsoc]{../sty/IEEEtran}
-
-\input{./usepackages}
-\input{./definitions}
+\usepackage{memsty}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{titlepages}  % code of the example titlepages
+\usepackage{memlays}     % extra layout diagrams
+\usepackage{dpfloat}     % floats on facing pages
+\usepackage{fonttable}[2009/04/01]   % font tables
+%%%%\usepackage{xr-hyper} \externaldocument{memdesign} Doesn't work, 
+%%%%                      Idea won't work in general for memman/memdesign
+%%%%                      as at display time, who knows where everything
+%%%%                      will be located on the individual's computer.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepackage{listings}
 \usepackage{color}
@@ -34,82 +47,212 @@
   breakatwhitespace=true,
   tabsize=3
 }
-%\input{leonardo_usepackages_for_ieee} %AK: avoid using it
+%%%% Change section heading styles
+%%%\memmansecheads
 
-% *** Do not adjust lengths that control margins, column widths, etc. ***
-% *** Do not use packages that alter fonts (such as pslatex).         ***
-% There should be no need to do such things with IEEEtran.cls V1.6 and later.
-% (Unless specifically asked to do so by the journal or conference you plan
-% to submit to, of course. )
+%%%% Use the built-in division styling
+\headstyles{memman}
 
-%\newcommand{\mytitle}{Impact of Multipath in Mobile Backhaul Savings for ICN Architectures: An Evaluation Using ndnSIM}
+%%% ToC down to subsections
+\settocdepth{subsection}
+%%% Numbering down to subsections as well
+\setsecnumdepth{subsection}
 
-\newcommand{\mytitle}{Beginning with NFD}
+%%%% extra index for first lines
+\makeindex[lines]
 
 
-%\newcommand{\mytitle}{NDN Routing and Forwarding Evaluation under Congestion in Push-Based Application Scenarios}
+% this 'if' is used to determine whether we are compiling the memoir
+% master in the subversion repository, or the public memman.tex
+\newif\ifMASTER
+\MASTERfalse
+%\MASTERtrue
 
-%\IEEEoverridecommandlockouts
+\ifMASTER
 
-\begin{document} 
-
-\title{\mytitle}
-
-%\author{Michael~Shell,~\IEEEmembership{Member,~IEEE,}
-        %John~Doe,~\IEEEmembership{Fellow,~OSA,}
-        %and~Jane~Doe,~\IEEEmembership{Life~Fellow,~IEEE}% <-this % stops a space
-%\author{Leonardo Ramalho,
-                                %Maria Nilma Fonseca,
-                                %Aldebaro Klautau,
-                               
-                                %Chenguang Lu, 
-                                %Elmar Trojer,
-                                %Miguel Berg,
-                                %and Stefan H\"{o}st
-\author{
-% Author and thnaks should be removed in submisson, but ok for final version
-% as shown in http://www.comsoc.org/cl/author-guidelines
-%\thanks{Manuscript received April 19, 2005; revised August 26, 2015.}
-%\thanks{This work was supported in part by CNPq and the Capes Foundation, Ministry of
-%Education of Brazil.
-%and by the European Union through the 5G-Crosshaul project (H2020-ICT-2014/671598).}
-%}
-%\thanks{L. Ramalho, M. N. Fonseca and A. Klautau are with Federal University of Para , Belem, Brazil (e-mail: \{leonardolr, nilmafonseca,aldebaro\}@ufpa.br).}% <-this % stops a space
-%\thanks{C. Lu, E. Trojer and M. Berg are with Ericsson Research, Kista, Sweden (e-mail: \{chenguang.lu, elmar.trojer, miguel.berg\}@ericsson.com)}
-%\thanks{S. H\"{o}st is with Department of Electrical and Information Technology, Lund University, Sweden (e-mail: stefan.host@eit.lth.se)}
-% \IEEEauthorblockN{Silvia~Lins\IEEEauthorrefmark{1}} \\
-% \IEEEauthorrefmark{1} Signal Processing Laboratory, Federal University of Par\'{a}, Brazil\\
-% Email: silvialins@ufpa.br
-% } 
-\IEEEauthorblockN{Joao Igor Pereira\IEEEauthorrefmark{1}} \\
-\IEEEauthorrefmark{1} LASSE - 5G & IoT Research Group, Federal University of Par\'{a}, Brazil\\
-Email: igorsantos95@live.com
+% add patch to fink, such that \AtEndFile still work
+\makeatletter
+\AtEndFile{fink.sty}{
+  \typeout{patching fink} 
+  \renewcommand{\InputIfFileExists}[2]{%
+    \IfFileExists{##1}%
+    {##2\@addtofilelist{##1}%
+      \m@matbeginf{##1}%
+      \fink@prepare{##1}%
+      %\@@input \@filef@und
+      \expandafter\fink@input%
+      \expandafter\fink@restore\expandafter{\finkpath}%
+     \m@matendf{##1}%
+     \killm@matf{##1}}%
+ }
 }
+\makeatother
+% private package, not in circulation
+% enables us to gather svn information on a single file basis
+%\usepackage[filehooks]{svn-multi-private}
+% use the current version
+\usepackage[filehooks]{svn-multi}
 
 
-\maketitle
+% \svnidlong
+% {}
+% {$LastChangedDate: 2015-03-05 18:49:59 +0100 (Thu, 05 Mar 2015) $}
+% {$LastChangedRevision: 516 $}
+% {$LastChangedBy: daleif $}
 
-\begin{abstract}
 
-% Current video streaming demands are motivating research on cost-efficient solutions for distributing such large traffic amount. Information-Centric Networking (ICN) is a relevant new paradigm that can inherently benefit from multipath transport. This work contributes specifically evaluating the impact of multipath transport in ICN deployments with and without cache, assessing its capacity to alleviate bottlenecks in the radio access network backhaul links. Previous related work has evaluated cache and multipath techniques jointly used, but in this work new insights are provided regarding how multipath functionality alone already impacts in a positive way ICN deployments. Another contribution of this work is evaluate cache deployment in various aggregation nodes in realistic mobile operator inspired scenario, showing how its location influences in end-to-end delay reduction. Evaluation is performed using the open source ndnSIM simulator and, e. g. , indicates that backhaul savings originated by multipath deployment are relevant even without cache, and also assesses cache deployment in intermediate aggregation nodes.
+
+\makeatletter
+\newcommand\addRevisionData{%
+  \begin{picture}(0,0)%
+    \put(0,-20){%
+      \tiny%
+      \expandafter\@ifmtarg\expandafter{\svnfiledate}{}{%
+        \textit{\textcolor{darkgray}{Chapter last updated \svnfileyear/\svnfilemonth/\svnfileday
+         \enspace (revision \svnfilerev)}}
+     }%
+    }%
+  \end{picture}%
+}
+\makeatother
+
+% we add this to the first page of each chapter
+
+\makepagestyle{chapter}
+\makeoddfoot{chapter}{\addRevisionData}{\thepage}{}
+\makeevenfoot{chapter}{\addRevisionData}{\thepage}{}
+
+\else
+% disable svn info collecting
+\newcommand\svnidlong[4]{}
+\fi
+
+
+
+%% end preamble
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%#% extend
+
+\usepackage[draft]{fixme}
+\fxsetup{
+  layout=marginnote
+}
+ 
+
+\begin{document}
+
+
+
+
+%#% extstart input intro.tex
+
+
+
+
+
+%\tightlists
+\firmlists
+\midsloppy
+\raggedbottom
+\chapterstyle{demo3}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{memnoidxnum}
+
+\frontmatter
+\pagestyle{empty}
+
+
+% half-title page
+\vspace*{\fill}
+\begin{adjustwidth}{1in}{1in}
+\begin{center}
+\HUGE\sffamily Beginning with NFD
+\end{center}
+%%\begin{center}
+%%\sffamily (Draft Edition 7)
+%%\end{center}
+\end{adjustwidth}
+\vspace*{\fill}
+\cleardoublepage
+
+% title page
+\vspace*{\fill}
+\begin{center}
+\HUGE\textsf{Beginning with NFD}\par
+\end{center}
+\begin{center}
+\LARGE\textsf{for Linux Users}\par
+\end{center}
+\begin{center}
+\HUGE\textsf{A practical guide}\par
+\end{center}
+
+
+\begin{center}
+\LARGE\textsf{João Igor Pereira}\par
+\bigskip
+\normalsize\textsf{Universidade Federal do Pará}\par
+\medskip
+\normalsize\textsf{igorsantos95@live.com}\par
+\end{center}
+\vspace*{\fill}
+\def\THP{T\kern-0.2em H\kern-0.4em P}%   OK for CMR
+\def\THP{T\kern-0.15em H\kern-0.3em P}%   OK for Palatino
+\newcommand*{\THPress}{LASSE - 5G and IoT Research Group}%
+\begin{center}
+\settowidth{\droptitle}{\textsf{\THPress}}%
+\textrm{\normalsize \THP} \\
+\textsf{\THPress} \\[0.2\baselineskip]
+\includegraphics[width=\droptitle]{anvil2.mps} %LASSE LOGO
+\setlength{\droptitle}{0pt}%
+\end{center}
+\clearpage
+
+
+% ToC, etc
+%%%\pagenumbering{roman}
+\pagestyle{headings}
+%%%%\pagestyle{Ruled}
+
+\setupshorttoc
+\setupparasubsecs
+\setupmaintoc
+\setlength{\unitlength}{1pt}
+\clearpage
+\listofegresults
+
+%#% extend
+
+
+%#% extstart include preface.tex
+%\chapter{Foreword}
+
+\svnidlong
+{$Ignore: $}
+{$LastChangedDate: 2014-11-05 16:28:11 +0100 (Wed, 05 Nov 2014) $}
+{$LastChangedRevision: 501 $}
+{$LastChangedBy: daleif $}
+
+\chapter{Abstract}
 Despite being a very useful tool for developers and researchers in NDN~\cite{ndn} area, NFD is a not very didactic tool, we can easily find how to install, articles about how it works, about the logical part of the program, even topics about some usual problems, but it is still poor the documentation about how to, in fact, use the tool, basic commands and about how to see a code working through it. The purpose of this document is to help NFD beginners that still doesn't had the ``breakthrough'' the hard start occasioned for the lack by the documentation about how to start using this tool, this document intends to be a practical guide for beginning to run codes in small NDN networks. 
 
-\end{abstract}
+{\raggedleft{\scshape João Igor Pereira} \\ LASSE - 5g and IoT reseach group , PA \\ March 2017\par}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\svnidlong
+{$Ignore: $}
+{$LastChangedDate: 2015-04-22 17:17:51 +0200 (Wed, 22 Apr 2015) $}
+{$LastChangedRevision: 527 $}
+{$LastChangedBy: daleif $}
 
-\renewcommand\IEEEkeywordsname{Keywords}
-\begin{IEEEkeywords}
-NFD,ICN, ndnSIM, NDN, ndn-cxx.
-\end{IEEEkeywords}      
-
-	\section{Introduction}
+\chapter{Introduction}
 NFD is one of the most powerful tools for NDN researchers and developers since it can emulate the core of an NDN node, making the user able to test algorithms for all the jobs the NDN node core have to do and generate thought it more realistic results than many other tools. While NFD can emulate a more realistic NDN network than ndnSIM, for example, the amount of data about how to use it goes the opposite, while ndnSIM have a wide community with articles about how to use it, not just for being based in NS-3 a network simulator already widely used, but for this simulator itself, having even video lessons on youtube with hours about how to develop simple simulations, NFD is still corrected when searched on google.
 NFD is not an undocumented project it actually have a very well detailed guide, the NFD Developer’s Guide~\cite{devguide} which detail the program and its classes with a lot of graphs demonstrating about how the program works besides some commands, syntax and meanings and is the appropriate document to be read if you want to be an NFD master. But for a beginner, read all that data can be not just tiring, but there is the risk to read all of that, understand all the logic of the program and at the end still doesn't know how to do your own simulation.  
-	
-	\section{Installation}
-You can find all the details about how to install NFD on NFD official site~\cite{NFD} but doing a synthesis, for Linux users the steps are below.
 
-	\subsection{ndn-cxx}
+\chapter{Installation}
+\subsection{ndn-cxx}
 	ndn-cxx~\cite{ndncxx} is a library written in C++ that implements NDN primitives and is being used in many NDN applications such as NFD, so to use NFD we have to install this library first.
 	\subsubsection{Prerequisites}
 	
@@ -136,8 +279,8 @@ After the Installation, still in the source code folder, if you are a Linux user
  \item sudo ldconfig 
 \end{itemize}
 Now your ndn-cxx library should be installed and prepared to run.
-	\subsection{NFD}  After installing the ndn-cxx library we can move forward starting the installation of NFD itself
-	\subsubsection{Prerequisites}
+	\section{NFD}  After installing the ndn-cxx library we can move forward starting the installation of NFD itself
+	\subsection{Prerequisites}
 	\begin{itemize}
 		\item \texttt{ndn-cxx}
 		
@@ -163,17 +306,16 @@ Having the prerequisites installed and the source code downloaded, to install NF
  \item \texttt{sudo ./waf install}
 \end{itemize}
 Now your NFD should be up to run. Run the NFD with the command: nfd-start
-If it shows any fatal errors, check if all the steps were executed right or check the NFD official site~\cite{NFD} for more information. 
-
-\section{Starting to Use}
+If it shows any fatal errors, check if all the steps were executed right or check the NFD official site~\cite{NFD} for more information.
+\chapter{Starting to Use}
 This section will demonstrate how to start using NFD, but first let's remember that NFD is not a simulator, it is a forwarder, a program that emulates an NDN node, so to actually emulate an NDN network, we will need more than one NFD(emulate node) running, which means that we have to install it in at least two different computers or if you have just one computer available and to make the process easier, virtual machines.
 Normal virtual machines use too much hardware resources to be a suitable way to emulate a more wide network, in that case, the best tool to have some virtual machines running NFD without making them competing for all your hardware resources is docker~\cite{docker}. 
 
-\subsection{Docker}
+\section{Docker}
 Docker~\cite{docker} is a software container platform, its containers are able to run softwares without needing to emulate the whole operational system, permitting to emulate machines without needing too much resources, that is why docker is a suitable solution to emulate networks with NFD in the case you have just one computer available.
 All the instructions about how to install and use docker are on Docker official website. (https://www.docker.com).
 All the commands below should be used with "sudo" since Docker needs root privileges. There are ways do give docker root privileges, but that's not the focus here.
-\subsubsection{Containers and Images}
+\subsection{Containers and Images}
 To use docker is important to know the difference between image and container since these are the main work objects of this tool.
 \begin{itemize}
  \item Image: Image is the "static" data of the machine, the saved part of a container that was running and can be run as a container with the run command
@@ -186,7 +328,7 @@ To see the container ID use in a terminal outside a container the command: \text
 Now you should have a docker image saved with NFD installed and you can use it to create as many containers you need or can to simulate your NDN network.\par 
 To create a docker network use \texttt{docker creat network <networkName>}, since you create a docker network once, you don't need to create again, like images, the networks structures are saved and can be used at anytime after the creation, but the containers connected to it, if killed, do not remain there.
 To connect a container to a created network the command \texttt{docker network connect <networkName> <containerName>}, to simulate an NDN network you should probably run and connect more than one container to the same network.
-\subsubsection{Main Docker Commands}
+\subsection{Main Docker Commands}
 \begin{itemize}
  \item \texttt{docker run --name <containerName> -it <imageName>:<version>}
  Run a saved image as a container
@@ -209,11 +351,11 @@ To connect a container to a created network the command \texttt{docker network c
 \end{itemize}
 
 
-\subsection{NFD}
+\section{NFD}
 NFD have a bunch of useful commands, but having all the steps above done, the main command you will have to use is \texttt{nfd-start} to get NFD running and \texttt{nfdc register /<interestName> udp4://<containerIP>} to connect the current container or machine to the container or machine with the given IP, specifically register in the FIB the IP to send the given interest, it is important to make sure that the machines or containers linked with this command are in the same network.
 To check the IṔ of the docker containers you can use inside the container the same commands that are used in normal terminals, such as \texttt{ifconfig} .
 
-\section{Starting to run codes}
+\chapter{Starting to run codes}
 Before actually writing codes, it is recommended to first see a NFD application running and investigate its code to be aware of how the program and the applications work in fact.
 One application recommended for that is available on NFD official site, it is called \texttt{NDN Essential Tools}. All the prerequisites to run this tool should be ok if you installed the previous tools correctly.
 You can download the tool through its github repository. \texttt{git clone https://github.com/named-data/ndn-tools} after that enter the folder where you cloned it and do the same installations process as before.
@@ -234,7 +376,7 @@ NDN essential tools contains some basic applications that are described on its g
 \item    dissect-wireshark: Wireshark extension to inspect TLV structure of NDN packets
 \item    pib: a service to manage the public information of keys and publish certificates
 \end{itemize}
-\subsection{Running a sample}
+\section{Running a sample}
 To see NDN Essential Tools working, lets use one of its tools, one of the most basic ones is the ping. To run the NDN Essential Tools ping, you will need two machines or two containers one acting like the ping client and the other like the ping server.
 To configure the ping server, enter in one of the two containers that you will use, start the NFD  with the \texttt{nfd-start} command and connect the two containers with the \texttt{sudo docker network connect <> <>} command. \par
 After that type \texttt{ndnpingserver /<interestName>} to set the interest to be responded, now your ndn ping server is up to run.
@@ -306,43 +448,6 @@ The file still have functions for time out and Nack, functions that called when 
 
 \begin{thebibliography}{99}
 
-%\bibitem{Cisco15}
-%"Cisco Visual Networking Index: Global Mobile Data Traffic Forecast
-%Update, 2015–2020 White Paper", Cisco Systems, San Jose CA, 2015,
-%[Online] Available: www.cisco.com/go/vni.
-
-%\bibitem{Xylomenos14}
-%G. Xylomenos et al., "A Survey of Information-Centric Networking
-%Research," in IEEE Communications Surveys \& Tutorials, vol. 16, no. 2,
-%pp. 1024-1049, Second Quarter 2014.
-
-%\bibitem{Triad}
-%Stanford University TRIAD project. [Online]. Available: http://www-
-%dsg.stanford.edu/triad/
-
-%\bibitem{Koponen2007}
-%T. Koponen, M. Chawla, B. Chun, A. Ermolinskiy, K. H. Kim,
-%S. Shenker, and I. Stoica, “A data-oriented (and beyond) network
-%architecture,” in ACM SIGCOMM, 2007, pp. 181–192.
-
-%\bibitem{Pursuit}
-%PURSUIT project. [Online]. Available: http://www.fp7-
-%pursuit.eu/PursuitWeb/
-
-%\bibitem{Sail}
-%SAIL project. [Online]. Available: http://www.sail-project.eu/
-
-%\bibitem{Comet}
-%COMET project. [Online]. Available: http://www.comet-project.org/
-
-%\bibitem{Convergence}
-%CONVERGENCE project. [Online]. Available: http://www.ict-
-%convergence.eu/
-
-%\bibitem{Mfirst}
-%NSF Mobility First project. [Online]. Available:
-%http://mobilityfirst.winlab.rutgers.edu/
-
 \bibitem{ndncxx}
 ndn-cxx: NDN C++ library with eXperimental eXtensions [Online]. Available:
 https://named-data.net/doc/ndn-cxx/current/
@@ -355,46 +460,11 @@ http://named-data.net/doc/NFD/current/
 NDN Named Data Networking project. [Online]. Available:
 http://www.named-data.net/
 
-%\bibitem{Jacobson09}
-%V. Jacobson, D. K. Smetters, J. D. Thornton, M. F. Plass, N. H. Briggs,
-%and R. L. Braynard, “Networking named content,” in ACM CoNEXT,
-%2009.
-
-%\bibitem{Lixia14}
-%Lixia Zhang, Alexander Afanasyev, Jeffrey Burke, Van Jacobson, kc
-%claffy, Patrick Crowley, Christos Papadopoulos, Lan Wang, and
-%Beichuan Zhang. 2014. Named data networking. SIGCOMM Comput.
-%Commun. Rev. 44, 3 (July 2014), 66-73.
-
-%\bibitem{Amadeo14a}
-%M. Amadeo, C. Campolo and A. Molinaro, "Internet of Things via Named Data Networking: The support of push traffic," 2014 International Conference and Workshop on the Network of the Future (NOF), Paris, 2014, pp. 1-5.
-
-%\bibitem{Zhu11}
-%Zhu, Z., Wang, S., Yang, X., Jacobson, V., Zhang, L. (2011, August). ACT: audio conference tool over named data networking. In Proceedings of the ACM SIGCOMM workshop on Information-centric networking (pp. 68-73). ACM.
-
-%\bibitem{Amadeo14b}
-%Marica Amadeo, Claudia Campolo, and Antonella Molinaro. 2014. Multi-source data retrieval in IoT via named data networking. In Proceedings of the 1st ACM Conference on Information-Centric Networking (ACM-ICN '14). ACM, New York, NY, USA, 67-76. 
 
 \bibitem{ndnsim}
 NS-3 based Named Data Networking (NDN) simulator 
 [Online]. Available:
 http://ndnsim.net/
-
-
-%\bibitem{Jacobson09voccn}
-%Jacobson, V., Smetters, D. K., Briggs, N. H., Plass, M. F., Stewart, P., Thornton, J. D., Braynard, R. L. (2009, December). VoCCN: voice-over content-centric networks. In Proceedings of the 2009 workshop on Re-architecting the internet (pp. 1-6). ACM.
-
-%\bibitem{Kwangsoo13}
-%Kim, K., Choi, S., Kim, S., Roh, B. H. (2013, December). A push-enabling scheme for live streaming system in content-centric networking. In Proceedings of the 2013 workshop on Student workhop (pp. 49-52). ACM.
-
-%\bibitem{Tsilopoulos11}
-%Tsilopoulos, C., Xylomenos, G. (2011, August). Supporting diverse traffic types in information centric networks. In Proceedings of the ACM SIGCOMM workshop on Information-centric networking (pp. 13-18). ACM.
-
-%\bibitem{Yao12}
-%Yao, C., Fan, L., Yan, Z., Xiang, Y. (2012). Long-term interest for realtime applications in the named data network. Proceedings of the AsiaFI.
-
-%\bibitem{ccnx}
-%Mosko, M., Solis, I., Uzun, E., Wood, C. (2015). CCNx 1.0 protocol architecture. Tech. Rep.
 
 \bibitem{devguide}
 Afanasyev, A., Shi, J., Zhang, B., Zhang, L., Moiseenko, I., Yu, Y., Fan, C. (2014). NFD developer’s guide. Technical Report NDN-0021, NDN.
@@ -403,20 +473,6 @@ Afanasyev, A., Shi, J., Zhang, B., Zhang, L., Moiseenko, I., Yu, Y., Fan, C. (20
 Docker platform.
 [Online]. Available:
 https://www.docker.com/
-
-%\bibitem{ndntg}
-%Traffic Generator for NDN
-%[Online]. Available:
-%https://github.com/named-data/ndn-traffic-generator
-
-%\bibitem{cubictcp}
-%Sangtae Ha and Injong Rhee, CUBIC : A New TCP-Friendly High-Speed TCP Variant, ACM SIGOPS Operating Systems Review - Research and developments in the Linux kernel, vol. 42, no. 5, pp. 64–74, 2008.
-
-%\bibitem{Kliazovich08}
-%Dzmitry Kliazovich, Fabrizio Granelli, and Daniele Miorandi, Logarithmic window increase for tcp westwood+ for improvement in high speed, long distance networks, Computer Networks, vol. 52, no. 12, pp. 2395–2410, 2008.
-
-%\bibitem{Floyd03}
-%S. Floyd, HighSpeed TCP for Large Congestion Windows, RFC 3649, 2003.
 
 \end{thebibliography}
   
