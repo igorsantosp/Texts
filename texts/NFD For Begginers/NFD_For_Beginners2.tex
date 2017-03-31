@@ -175,7 +175,7 @@
 %%\end{center}
 \end{adjustwidth}
 \vspace*{\fill}
-\cleardoublepage
+\clearpage
 
 % title page
 \vspace*{\fill}
@@ -191,21 +191,19 @@
 
 
 \begin{center}
-\LARGE\textsf{João Igor Pereira}\par
+\LARGE\textsf{Jo\~{a}o Igor Pereira}\par
 \bigskip
-\normalsize\textsf{Universidade Federal do Pará}\par
+\normalsize\textsf{Universidade Federal do Par\'{a}}\par
 \medskip
 \normalsize\textsf{igorsantos95@live.com}\par
 \end{center}
 \vspace*{\fill}
-\def\THP{T\kern-0.2em H\kern-0.4em P}%   OK for CMR
-\def\THP{T\kern-0.15em H\kern-0.3em P}%   OK for Palatino
-\newcommand*{\THPress}{LASSE - 5G and IoT Research Group}%
+
+\newcommand*{\THPress}{LASSE - 5G \& IoT Research Group}%
 \begin{center}
 \settowidth{\droptitle}{\textsf{\THPress}}%
-\textrm{\normalsize \THP} \\
 \textsf{\THPress} \\[0.2\baselineskip]
-\includegraphics[width=\droptitle]{anvil2.mps} %LASSE LOGO
+\includegraphics[width=\droptitle]{LASSE.eps} %LASSE LOGO
 \setlength{\droptitle}{0pt}%
 \end{center}
 \clearpage
@@ -221,7 +219,6 @@
 \setupmaintoc
 \setlength{\unitlength}{1pt}
 \clearpage
-\listofegresults
 
 %#% extend
 
@@ -236,9 +233,9 @@
 {$LastChangedBy: daleif $}
 
 \chapter{Abstract}
-Despite being a very useful tool for developers and researchers in NDN~\cite{ndn} area, NFD is a not very didactic tool, we can easily find how to install, articles about how it works, about the logical part of the program, even topics about some usual problems, but it is still poor the documentation about how to, in fact, use the tool, basic commands and about how to see a code working through it. The purpose of this document is to help NFD beginners that still doesn't had the ``breakthrough'' the hard start occasioned for the lack by the documentation about how to start using this tool, this document intends to be a practical guide for beginning to run codes in small NDN networks. 
+Despite being a very useful tool for developers and researchers in NDN~\cite{ndn} area, NFD~\cite{NFD} is a not very didactic tool, we can easily find how to install, articles about how it works, about the logical part of the program, even topics about some usual problems, but it is still poor the documentation about how to, in fact, use the tool, basic commands and about how to see a code working through it. The purpose of this document is to help NFD beginners that still doesn't had the ``breakthrough'' the hard start occasioned for the lack by the documentation about how to start using this tool, this document intends to be a practical guide for beginning to run codes in small NDN networks. 
 
-{\raggedleft{\scshape João Igor Pereira} \\ LASSE - 5g and IoT reseach group , PA \\ March 2017\par}
+{\raggedleft{\scshape Jo\~{a}o Igor Pereira} \\ LASSE - 5g \& IoT reseach group , PA \\ March 2017\par}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \svnidlong
@@ -248,13 +245,13 @@ Despite being a very useful tool for developers and researchers in NDN~\cite{ndn
 {$LastChangedBy: daleif $}
 
 \chapter{Introduction}
-NFD is one of the most powerful tools for NDN researchers and developers since it can emulate the core of an NDN node, making the user able to test algorithms for all the jobs the NDN node core have to do and generate thought it more realistic results than many other tools. While NFD can emulate a more realistic NDN network than ndnSIM, for example, the amount of data about how to use it goes the opposite, while ndnSIM have a wide community with articles about how to use it, not just for being based in NS-3 a network simulator already widely used, but for this simulator itself, having even video lessons on youtube with hours about how to develop simple simulations, NFD is still corrected when searched on google.
-NFD is not an undocumented project it actually have a very well detailed guide, the NFD Developer’s Guide~\cite{devguide} which detail the program and its classes with a lot of graphs demonstrating about how the program works besides some commands, syntax and meanings and is the appropriate document to be read if you want to be an NFD master. But for a beginner, read all that data can be not just tiring, but there is the risk to read all of that, understand all the logic of the program and at the end still doesn't know how to do your own simulation.  
+NFD is one of the most powerful tools for NDN researchers and developers since it can emulate the core of an NDN node, making the user able to test algorithms for all the jobs the NDN node core have to do and generate thought it more realistic results than many other tools. While NFD can emulate a more realistic NDN network than ndnSIM~\cite{ndnsim}, for example, the amount of data about how to use it goes the opposite, while ndnSIM have a wide community with articles about how to use it, not just for being based in NS-3 a network simulator already widely used, but for this simulator itself, having even video lessons on youtube with hours about how to develop simple simulations, NFD is still corrected when searched on google.
+NFD is not an undocumented project it actually have a very well detailed guide, the NFD Developer's Guide~\cite{devguide} which details the program and its classes with a lot of graphs demonstrating about how the program works besides some commands, syntax and meanings and is the appropriate document to be read if you want to be an NFD master. But for a beginner, read all that data can be not just tiring, but there is the risk to read all of that, understand all the logic of the program and at the end still doesn't know how to do your own simulation.  
 
 \chapter{Installation}
-\subsection{ndn-cxx}
+\section{ndn-cxx}
 	ndn-cxx~\cite{ndncxx} is a library written in C++ that implements NDN primitives and is being used in many NDN applications such as NFD, so to use NFD we have to install this library first.
-	\subsubsection{Prerequisites}
+	\subsection{Prerequisites}
 	
 	\begin{itemize}
 		
@@ -306,13 +303,13 @@ Having the prerequisites installed and the source code downloaded, to install NF
  \item \texttt{sudo ./waf install}
 \end{itemize}
 Now your NFD should be up to run. Run the NFD with the command: nfd-start
-If it shows any fatal errors, check if all the steps were executed right or check the NFD official site~\cite{NFD} for more information.
+If it shows any fatal errors, check if all the steps were executed right or check the NFD official site for more information.
 \chapter{Starting to Use}
 This section will demonstrate how to start using NFD, but first let's remember that NFD is not a simulator, it is a forwarder, a program that emulates an NDN node, so to actually emulate an NDN network, we will need more than one NFD(emulate node) running, which means that we have to install it in at least two different computers or if you have just one computer available and to make the process easier, virtual machines.
 Normal virtual machines use too much hardware resources to be a suitable way to emulate a more wide network, in that case, the best tool to have some virtual machines running NFD without making them competing for all your hardware resources is docker~\cite{docker}. 
 
 \section{Docker}
-Docker~\cite{docker} is a software container platform, its containers are able to run softwares without needing to emulate the whole operational system, permitting to emulate machines without needing too much resources, that is why docker is a suitable solution to emulate networks with NFD in the case you have just one computer available.
+Docker is a software container platform, its containers are able to run softwares without needing to emulate the whole operational system, permitting to emulate machines without needing too much resources, that is why docker is a suitable solution to emulate networks with NFD in the case you have just one computer available.
 All the instructions about how to install and use docker are on Docker official website. (https://www.docker.com).
 All the commands below should be used with "sudo" since Docker needs root privileges. There are ways do give docker root privileges, but that's not the focus here.
 \subsection{Containers and Images}
@@ -330,23 +327,23 @@ To create a docker network use \texttt{docker creat network <networkName>}, sinc
 To connect a container to a created network the command \texttt{docker network connect <networkName> <containerName>}, to simulate an NDN network you should probably run and connect more than one container to the same network.
 \subsection{Main Docker Commands}
 \begin{itemize}
- \item \texttt{docker run --name <containerName> -it <imageName>:<version>}
- Run a saved image as a container
- \item \texttt{docker ps}
- Shows the containers which are running
- \item \texttt{docker images}
- Shows the saved images
- \item \texttt{docker commit <containerID>  <imageName>:<version>}
- Commit the changes in the container as an image
- \item \texttt{docker network create <networkName>}
- Create a docker network
- \item \texttt{docker network connect <networkName> <containerName>}
- Connect a container to an existent docker network
- \item \texttt{docker rm <containerName>}
- Remove/kill a container running
- \item \texttt{docker rmi <imageName>}
- Delete a saved/committed image
- \item \texttt{exit} 
+ \item \texttt{docker run --name <containerName> -it <imageName>:<version>}\\*
+ Run a saved image as a container \\*
+ \item \texttt{docker ps}\\*
+ Shows the containers which are running \\*
+ \item \texttt{docker images} \\*
+ Shows the saved images \\*
+ \item \texttt{docker commit <containerID>  <imageName>:<version>}\\*
+ Commit the changes in the container as an image \\*
+ \item \texttt{docker network create <networkName>}\\*
+ Create a docker network \\*
+ \item \texttt{docker network connect <networkName> <containerName>}\\*
+ Connect a container to an existent docker network \\*
+ \item \texttt{docker rm <containerName>}\\*
+ Remove/kill a container running \\*
+ \item \texttt{docker rmi <imageName>}\\*
+ Delete a saved/committed image \\*
+ \item \texttt{exit} \\*
  Exit the terminal or the current container
 \end{itemize}
 
@@ -382,7 +379,7 @@ To configure the ping server, enter in one of the two containers that you will u
 After that type \texttt{ndnpingserver /<interestName>} to set the interest to be responded, now your ndn ping server is up to run.
 To configure the ping client, you have to start the NFD  with the \texttt{nfd-start} and then bind this container to the other recording on its FIB the other machine with the same interest expressed in the server \texttt{nfdc register /<interestName> udp4://<pingServerIP>} after recording it you can stat the ping with the command \texttt{ndnping <interestName>}
 \subsection{investigating the code}
-To investigate the ndn ping operation lets look at some functions in its file core code called \texttt{ping.cpp} on \texttt{ndn-tools/tools/ping/client} folder. \par The first function we are going to talk about is the function that actually sends de interest packet, sends the ping, the function \texttt{performPing()}
+To investigate the ndn ping operation lets look at some functions in its file core code called \texttt{ping.cpp} on \texttt{ndn-tools/tools/ping/client} folder. \par The first function we are going to talk about is the function that actually sends de interest packet, sends the ping, the function \texttt{performPing()}.
 \clearpage
 \begin{lstlisting}
 void
@@ -430,7 +427,7 @@ Ping::onData(const Interest& interest,
 }
 \end{lstlisting}
 \clearpage
-onData function is called everytime the ping is responded by the ping server and the data arrives at the client, this method is a standard method that in this program is implemented to just print the RTT and the name of the data that arrived, this method should and will be used in other application to process the incoming data \par.
+onData function is called everytime the ping is responded by the ping server and the data arrives at the client, this method is a standard method that in this program is implemented to just print the RTT and the name of the data that arrived, this method should and will be used in other application to process the incoming data. \par
 The file still have functions for time out and Nack, functions that called when these events occur, they are similar to onData but serving to these events, is it possible to set the timeout time overwriting the standard one using the attribute -o on ndnping command. There are other methods on the file such as \texttt{makePingName()} which is responsible for creating the name of the interest based on the sequence of pings, but editing this 4 methods cited you already can make your own NDN code over this application.
 
 
@@ -448,17 +445,14 @@ The file still have functions for time out and Nack, functions that called when 
 
 \begin{thebibliography}{99}
 
-\bibitem{ndncxx}
-ndn-cxx: NDN C++ library with eXperimental eXtensions [Online]. Available:
-https://named-data.net/doc/ndn-cxx/current/
+\bibitem{ndn}
+NDN Named Data Networking project. [Online]. Available:
+http://www.named-data.net/
+
 
 \bibitem{NFD}
 Named Data Networking Forwarding Daemon. [Online]. Available:
 http://named-data.net/doc/NFD/current/
-
-\bibitem{ndn}
-NDN Named Data Networking project. [Online]. Available:
-http://www.named-data.net/
 
 
 \bibitem{ndnsim}
@@ -468,6 +462,12 @@ http://ndnsim.net/
 
 \bibitem{devguide}
 Afanasyev, A., Shi, J., Zhang, B., Zhang, L., Moiseenko, I., Yu, Y., Fan, C. (2014). NFD developer’s guide. Technical Report NDN-0021, NDN.
+
+
+\bibitem{ndncxx}
+ndn-cxx: NDN C++ library with eXperimental eXtensions [Online]. Available:
+https://named-data.net/doc/ndn-cxx/current/
+
 
 \bibitem{docker}
 Docker platform.
