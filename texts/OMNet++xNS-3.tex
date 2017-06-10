@@ -1,0 +1,196 @@
+\documentclass[10pt,conference]{./IEEEtran}
+
+\input{./usepackages}
+\input{./definitions}
+
+
+\newcommand{\mytitle}{A general Evaluation: OMNet++ vs. NS-3} %exemplo de título
+
+
+\begin{document} 
+
+\title{\mytitle}
+\author{\IEEEauthorblockN{Jo\~{a}o Igor dos Santos Pereira\IEEEauthorrefmark{1},
+				   Jonatas Figueiredo Alves\IEEEauthorrefmark{2},
+			   		Felipe Lima de Oliveira\IEEEauthorrefmark{3} and
+		   			Hugo Henrique Mesquita dos Santos\IEEEauthorrefmark{4}} \\
+\IEEauthorblockA{Federal University of Par\'{a}\\ 
+	Brazil\\
+Email:\IEEEauthorrefmark{1} igorsantos95@live.com,
+\IEEEauthorrefmark{2} email do jonatas,
+\IEEEauthorrefmark{3} email do Felipe,
+\IEEEauthorrefmark{4} .. do Hugo}}
+
+
+\maketitle
+
+\begin{abstract}
+
+%With the huge increase in data traffic in the nowadays network, the need for the research and development for protocols that suits better this huge traffic is rising and some of the most promising research are in CCN(Concent Centric Networking)~\cite{ccn} areas such as NDN(Named Data Network)~\cite{ndn} protocol, since the main proposal of these protocols is placing the data as the center of the network not the end nodes connection anymore, this way relieving the actual weight that the servers/end-nodes in the IP architecture have to carry to supply the demand of a huge number of accesses. Knowing that the NDN network still has some lacks and issues not solved (such as setting the most feasible implementation of IOT network and ensuring the quality of service in video streamings) due to its state of development, the research needs more productivity to be in an implementable state for being a feasible 5g solution. In order to help the research and development of these protocols, tools for the researchers are needed, tools for simulation and emulation that help the programmers to develop the "ideal algorithms" for these protocols.
+
+Ignorem o texto acima, é só pra dar um exemplo do que escrever no abstract, dar a conjunturar atual e introduzir o pq do trabalho
+
+
+\end{abstract}
+
+
+\renewcommand\IEEEkeywordsname{Keywords}
+\begin{IEEEkeywords}
+Network Simulators, NS-3, OMNet++.
+\end{IEEEkeywords}      
+
+	\section{Introduction}
+
+   %NDN is a very promising architecture that is being developed in the last few years, it aspires to be the successor of the actual most used architecture, the IP architecture, despites being a good solution for many problems that the IP architecture has facing, NDN is still being developed, for that, the academia and the developers need tools to test, study and improve the NDN algorithms, tools preferably, powerful, open source and less complex as possible for the users so the tools can be common, get the wide research community using it and helps the community to develop faster the ideals algorithms for this new architecture.\par
+    %ndnSIM and NFD are so far the most relevant and used tools in the research and development of NDN networks, each one has its own applications, even usually used together for a more realistic simulation, they are in fact separate things, having each one a different function.
+	Ignorem o texto acima é só exemplo, introdução aqui, quebra de parágrafo com  "\ par"
+
+
+	\section{NS-3}
+	escrever sobre o NS-3 aqui
+
+
+	\subsection{Nome do subtópico}
+	caso precisemos de subtópicos pra falar do NS-3 a estrutura é essa \\ %duas barras ou \par pra quebra de linha e % pra comentário
+
+
+	Estrutura de lista abaixo, caso precisemos listar itens
+	\begin{itemize}
+		\item Item 1
+		
+		\item Item 2 
+		
+		\item Item 3
+	\end{itemize}
+
+
+	\section{OMNet++}  
+	Escrever aqui sobre o OMNet quebrando os parágrafos com \par
+	\subsection{subseção do OMNet}
+	texto da subseção aqui
+
+
+estrutura de lista
+\begin{itemize}
+		\item item 1
+		
+		\item Item 2
+		
+		\item Item 3
+		
+	\end{itemize}
+
+
+	\section{Conclusions} 
+	Texto da conclusão aqui \par
+		
+		
+		exemplo de adição de figuras(deixa que isso eu ajeito por aqui)
+		\begin{figure}[ht]
+			\centering
+			\includegraphics[height=3in, width=3.2in]{./Figures/Pipeline}
+			\caption{pipeline illustration of both programs working together}
+			\label{fig:not_congested_results1}
+		\end{figure} 
+
+
+Exemplo de como se referir à bibliografia, quando forem referenciar no texto usem por exemplo \cite{Cisco15} ou \cite{Cisco15, Xylomenos14} pra citações múltiplas ou \cite[chapter, p.~115]{Cisco15} pra uma referencia exata.
+
+
+\begin{thebibliography}{10}
+
+%\bibitem{Cisco15}
+%"Cisco Visual Networking Index: Global Mobile Data Traffic Forecast
+%Update, 2015–2020 White Paper", Cisco Systems, San Jose CA, 2015,
+%[Online] Available: www.cisco.com/go/vni.
+
+%\bibitem{Xylomenos14}
+%G. Xylomenos et al., "A Survey of Information-Centric Networking
+%Research," in IEEE Communications Surveys \& Tutorials, vol. 16, no. 2,
+%pp. 1024-1049, Second Quarter 2014.
+
+%\bibitem{Triad}
+%Stanford University TRIAD project. [Online]. Available: http://www-
+%dsg.stanford.edu/triad/
+
+%\bibitem{Koponen2007}
+%T. Koponen, M. Chawla, B. Chun, A. Ermolinskiy, K. H. Kim,
+%S. Shenker, and I. Stoica, “A data-oriented (and beyond) network
+%architecture,” in ACM SIGCOMM, 2007, pp. 181–192.
+
+%\bibitem{Sail}
+%SAIL project. [Online]. Available: http://www.sail-project.eu/
+
+
+%\bibitem{Mfirst}
+%NSF Mobility First project. [Online]. Available:
+%http://mobilityfirst.winlab.rutgers.edu/
+
+\bibitem{ccn}
+Content Centric Networking project.
+[Online]. Available:
+http://www.ccnx.org/
+
+\bibitem{ndn}
+NSF Named Data Networking project. [Online]. Available:
+http://www.named-data.net/
+
+%\bibitem{Jacobson09}
+%V. Jacobson, D. K. Smetters, J. D. Thornton, M. F. Plass, N. H. Briggs,
+%and R. L. Braynard, “Networking named content,” in ACM CoNEXT,
+%2009.
+
+%\bibitem{Lixia14}
+%Lixia Zhang, Alexander Afanasyev, Jeffrey Burke, Van Jacobson, kc
+%claffy, Patrick Crowley, Christos Papadopoulos, Lan Wang, and
+%Beichuan Zhang. 2014. Named data networking. SIGCOMM Comput.
+%Commun. Rev. 44, 3 (July 2014), 66-73.
+
+%\bibitem{Amadeo14a}
+%M. Amadeo, C. Campolo and A. Molinaro, "Internet of Things via Named Data Networking: The support of push traffic," 2014 International Conference and Workshop on the Network of the Future (NOF), Paris, 2014, pp. 1-5.
+
+%\bibitem{Zhu11}
+%Zhu, Z., Wang, S., Yang, X., Jacobson, V., Zhang, L. (2011, August). ACT: audio conference tool over named data networking. In Proceedings of the ACM SIGCOMM workshop on Information-centric networking (pp. 68-73). ACM.
+
+%\bibitem{Amadeo14b}
+%Marica Amadeo, Claudia Campolo, and Antonella Molinaro. 2014. Multi-source data retrieval in IoT via named data networking. In Proceedings of the 1st ACM Conference on Information-Centric Networking (ACM-ICN '14). ACM, New York, NY, USA, 67-76. 
+
+\bibitem{ndnsim}
+Mastorakis, S., Afanasyev, A., Moiseenko, I., Zhang, L. (2015). ndnSIM 2.0: A new version of the NDN simulator for NS-3. University of California, Los Angeles, Tech. Rep.
+
+%\bibitem{Jacobson09voccn}
+%Jacobson, V., Smetters, D. K., Briggs, N. H., Plass, M. F., Stewart, P., Thornton, J. D., Braynard, R. L. (2009, December). VoCCN: voice-over content-centric networks. In Proceedings of the 2009 workshop on Re-architecting the internet (pp. 1-6). ACM.
+
+%\bibitem{Kwangsoo13}
+%Kim, K., Choi, S., Kim, S., Roh, B. H. (2013, December). A push-enabling scheme for live streaming system in content-centric networking. In Proceedings of the 2013 workshop on Student workhop (pp. 49-52). ACM.
+
+%\bibitem{Tsilopoulos11}
+%Tsilopoulos, C., Xylomenos, G. (2011, August). Supporting diverse traffic types in information centric networks. In Proceedings of the ACM SIGCOMM workshop on Information-centric networking (pp. 13-18). ACM.
+
+%\bibitem{Yao12}
+%Yao, C., Fan, L., Yan, Z., Xiang, Y. (2012). Long-term interest for realtime applications in the named data network. Proceedings of the AsiaFI.
+
+%\bibitem{ccnx}
+%Mosko, M., Solis, I., Uzun, E., Wood, C. (2015). CCNx 1.0 protocol architecture. Tech. Rep.
+
+%\bibitem{nfd}
+%Afanasyev, A., Shi, J., Zhang, B., Zhang, L., Moiseenko, I., Yu, Y., Fan, C. (2014). NFD developer’s guide. Technical Report NDN-0021, NDN.
+
+%\bibitem{docker}
+%Docker platform.
+%[Online]. Available:
+%https://www.docker.com/
+
+%\bibitem{cubictcp}
+%Sangtae Ha and Injong Rhee, CUBIC : A New TCP-Friendly High-Speed TCP Variant, ACM SIGOPS Operating Systems Review - Research and developments in the Linux kernel, vol. 42, no. 5, pp. 64–74, 2008.
+
+%\bibitem{Kliazovich08}
+%Dzmitry Kliazovich, Fabrizio Granelli, and Daniele Miorandi, Logarithmic window increase for tcp westwood+ for improvement in high speed, long distance networks, Computer Networks, vol. 52, no. 12, pp. 2395–2410, 2008.
+
+%\bibitem{Floyd03}
+%S. Floyd, HighSpeed TCP for Large Congestion Windows, RFC 3649, 2003.
+
+\end{thebibliography}
+  
+
+\end{document}
